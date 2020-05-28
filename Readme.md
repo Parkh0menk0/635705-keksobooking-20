@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Oleg Parkhomenko](https://up.htmlacademy.ru/javascript/20/user/635705).
-* Наставник: `Неизвестно`.
+* Наставник: [Вадим Попов](https://htmlacademy.ru/profile/id1503771).
 
 ---
 
