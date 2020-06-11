@@ -116,4 +116,16 @@ function createMarks(generated) {
   return fragment;
 }
 
+/**
+ * @description Заполняет блок DOM-элементами на основе массива JS-объектов.
+ * @param {Object} fragment DocumentFragment.
+ */
+function fillMarks(fragment) {
+  var list = document.querySelector('.map__pins');
+
+  list.appendChild(fragment);
+}
+
 map.classList.remove("map--faded");
+
+fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
