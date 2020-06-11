@@ -94,4 +94,26 @@ function createAds(count, title, type, time, features, photos) {
   return ads;
 }
 
+/**
+ * @description Создаёт DOM-элементы на основе JS-объекта.
+ * @param {Object[]} generated Сгенерированный массив объявлений.
+ * @return {Object} DocumentFragment.
+ */
+function createMarks(generated) {
+  var template = document.querySelector("#pin").content.querySelector("button");
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < generated.length; i++) {
+    var element = template.cloneNode(true);
+    var avatar = element.querySelector(".map__pin img");
+    element.style.left = generated[i].location.x + "px";
+    element.style.top = generated[i].location.y + "px";
+    avatar.src = generated[i].author.avatar;
+    avatar.alt = generated[i].offer.title;
+    fragment.appendChild(element);
+  }
+
+  return fragment;
+}
+
 map.classList.remove("map--faded");
