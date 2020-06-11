@@ -41,6 +41,8 @@ var PHOTOS = [
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
 ]
 
+var map = document.querySelector(".map");
+
 /**
  * @description Генерирует случайные данные.
  * @param {number} min Минимальное целое число.
@@ -91,3 +93,5 @@ function createAds(count, title, type, time, features, photos) {
   }
   return ads;
 }
+
+map.classList.remove("map--faded");
