@@ -84,7 +84,13 @@ function createAds(count, title, type, time, features, photos) {
         'guests': randomInteger(1, Number.MAX_SAFE_INTEGER),
         'checkin': time[randomInteger(0, time.length - 1)],
         'checkout': time[randomInteger(0, time.length - 1)],
-        'features': features,
+        'features': function () {
+          var feature = [];
+          for (var j = 0; j < randomInteger(1, features.length); j++) {
+            feature.push(features[j]);
+          }
+          return feature;
+        },
         'description': '',
         'photos': photos
       }
