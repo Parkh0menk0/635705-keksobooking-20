@@ -41,6 +41,11 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+var OFFSET = {
+  x: 25,
+  y: 70
+};
+
 var map = document.querySelector('.map');
 
 /**
@@ -121,8 +126,8 @@ function createMarks(generated) {
   for (var i = 0; i < generated.length; i++) {
     var element = template.cloneNode(true);
     var avatar = element.querySelector('.map__pin img');
-    element.style.left = generated[i].location.x - element.offsetWidth / 2 + 'px';
-    element.style.top = generated[i].location.y - element.offsetHeight + 'px';
+    element.style.left = generated[i].location.x - OFFSET.x + 'px';
+    element.style.top = generated[i].location.y - OFFSET.y + 'px';
     avatar.src = generated[i].author.avatar;
     avatar.alt = generated[i].offer.title;
     fragment.appendChild(element);
