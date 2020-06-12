@@ -54,6 +54,19 @@ function randomInteger(min, max) {
 }
 
 /**
+ * @description Генерирует массив случайной длины.
+ * @param {Object[]} array Массив фиксированной длины.
+ * @return {Object[]} Массив случайной длины.
+ */
+function randomLengthArray(array) {
+  var arr = [];
+  for (var j = 0; j < randomInteger(1, array.length); j++) {
+    arr.push(array[j]);
+  }
+  return arr;
+}
+
+/**
  * @description Создаёт массив объектов описания похожего объявления неподалёку.
  * @param {number} count Колличество необходимых для генерирования JS-объектов.
  * @param {Object[]} title Массив заголовоков.
@@ -84,15 +97,9 @@ function createAds(count, title, type, time, features, photos) {
         'guests': randomInteger(1, Number.MAX_SAFE_INTEGER),
         'checkin': time[randomInteger(0, time.length - 1)],
         'checkout': time[randomInteger(0, time.length - 1)],
-        'features': function () {
-          var feature = [];
-          for (var j = 0; j < randomInteger(1, features.length); j++) {
-            feature.push(features[j]);
-          }
-          return feature;
-        },
+        'features': randomLengthArray(features),
         'description': '',
-        'photos': photos
+        'photos': randomLengthArray(photos)
       }
     };
 
