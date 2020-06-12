@@ -122,7 +122,7 @@ function createMarks(generated) {
     var element = template.cloneNode(true);
     var avatar = element.querySelector('.map__pin img');
     element.style.left = generated[i].location.x - element.offsetWidth / 2 + 'px';
-    element.style.top = generated[i].location.y - element.offsetHeight / 2 + 'px';
+    element.style.top = generated[i].location.y - element.offsetHeight + 'px';
     avatar.src = generated[i].author.avatar;
     avatar.alt = generated[i].offer.title;
     fragment.appendChild(element);
