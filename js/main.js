@@ -148,6 +148,25 @@ function setTextContent(element, value) {
 }
 
 /**
+ * @description Добавляет фотографии DOM-элементу.
+ * @param {Object} photos DOM-элемент, содержащий фото.
+ * @param {Object[]} photoArr Массив, содержащий фото.
+ */
+function setPhotoContent(photos, photoArr) {
+  for (var i = 0; i < photoArr.length; i++) {
+    if (i >= 1) {
+      var img = document.createElement('img');
+      img.classList.add('popup__photo');
+      img.style.width = '45px';
+      img.style.height = '40px';
+      photos.append(img);
+    }
+    var photo = photos.children[i];
+    photo.src = photoArr[i];
+  }
+}
+
+/**
  * @description Создаёт DOM-элемент карточеки объявления на основе первого элемента массива JS-объектов.
  * @param {Object} firstCard Сгенерированный массив объявлений.
  * @return {Object} DocumentFragment.
@@ -176,14 +195,7 @@ function createCard(firstCard) {
   }
 
   setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
-
-  for (var i = 0; i < firstCard.offer.photos.length; i++) {
-    if (i > 1) {
-      photos.append(document.createElement('img'));
-    }
-    var photo = photos.children[i];
-    photo.src = firstCard.offer.photos[i];
-  }
+  setPhotoContent(photos, firstCard.offer.photos);
 
   avatar.src = firstCard.author.avatar;
 
