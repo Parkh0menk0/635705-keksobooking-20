@@ -139,6 +139,15 @@ function createMarks(generated) {
 }
 
 /**
+ * @description Добавляет значение DOM-элементу.
+ * @param {Object} element Элемент DOM.
+ * @param {String} value Текстовое значение.
+ */
+function setTextContent(element, value) {
+  element.textContent = value;
+}
+
+/**
  * @description Создаёт DOM-элемент карточеки объявления на основе первого элемента массива JS-объектов.
  * @param {Object[]} generated Сгенерированный массив объявлений.
  * @return {Object} DocumentFragment.
@@ -151,28 +160,28 @@ function createCard(generated) {
   var avatar = element.querySelector('.popup__avatar');
   var photos = element.querySelector('.popup__photos');
 
-  element.querySelector('.popup__title').textContent = first.offer.title;
-  element.querySelector('.popup__text--address').textContent = first.offer.address;
-  element.querySelector('.popup__text--price').textContent = first.offer.price + '₽/ночь';
-  element.querySelector('.popup__type').textContent = first.offer.type;
-  element.querySelector('.popup__text--capacity').textContent = first.offer.rooms + ' комнаты для ' + first.offer.guests + ' гостей';
-  element.querySelector('.popup__text--time').textContent = 'Заезд после ' + first.offer.checkin + ', выезд до ' + first.offer.checkout;
+  setTextContent(element.querySelector('.popup__title'), first.offer.title);
+  setTextContent(element.querySelector('.popup__text--address'), first.offer.address);
+  setTextContent(element.querySelector('.popup__text--price'), first.offer.price + '₽/ночь');
+  setTextContent(element.querySelector('.popup__type'), first.offer.type);
+  setTextContent(element.querySelector('.popup__text--capacity'), first.offer.rooms + ' комнаты для ' + first.offer.guests + ' гостей');
+  setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + first.offer.checkin + ', выезд до ' + first.offer.checkout);
 
   if (first.offer.features.includes('wifi')) {
-    element.querySelector('.popup__feature--wifi').textContent = first.offer.features[0];
+    setTextContent(element.querySelector('.popup__feature--wifi'), first.offer.features[0]);
   } else if (first.offer.features.includes('dishwasher')) {
-    element.querySelector('.popup__feature--dishwasher').textContent = first.offer.features[1];
+    setTextContent(element.querySelector('.popup__feature--dishwasher'), first.offer.features[1]);
   } else if (first.offer.features.includes('parking')) {
-    element.querySelector('.popup__feature--parking').textContent = first.offer.features[2];
+    setTextContent(element.querySelector('.popup__feature--parking'), first.offer.features[2]);
   } else if (first.offer.features.includes('washer')) {
-    element.querySelector('.popup__feature--washer').textContent = first.offer.features[3];
+    setTextContent(element.querySelector('.popup__feature--washer'), first.offer.features[3]);
   } else if (first.offer.features.includes('elevator')) {
-    element.querySelector('.popup__feature--elevator').textContent = first.offer.features[4];
+    setTextContent(element.querySelector('.popup__feature--elevator'), first.offer.features[4]);
   } else if (first.offer.features.includes('conditioner')) {
-    element.querySelector('.popup__feature--conditioner').textContent = first.offer.features[5];
+    setTextContent(element.querySelector('.popup__feature--conditioner'), first.offer.features[5]);
   }
 
-  element.querySelector('.popup__title').textContent = first.offer.title;
+  setTextContent(element.querySelector('.popup__title'), first.offer.title);
 
   for (var i = 0; i < photos.children.length; i++) {
     if (i > 1) {
