@@ -149,44 +149,43 @@ function setTextContent(element, value) {
 
 /**
  * @description Создаёт DOM-элемент карточеки объявления на основе первого элемента массива JS-объектов.
- * @param {Object[]} generated Сгенерированный массив объявлений.
+ * @param {Object} firstCard Сгенерированный массив объявлений.
  * @return {Object} DocumentFragment.
  */
-function createCard(generated) {
+function createCard(firstCard) {
   var template = document.querySelector('#card').content.querySelector('article');
   var fragment = document.createDocumentFragment();
   var element = template.cloneNode(true);
-  var first = generated[0];
   var avatar = element.querySelector('.popup__avatar');
   var photos = element.querySelector('.popup__photos');
 
-  setTextContent(element.querySelector('.popup__title'), first.offer.title);
-  setTextContent(element.querySelector('.popup__text--address'), first.offer.address);
-  setTextContent(element.querySelector('.popup__text--price'), first.offer.price + '₽/ночь');
-  setTextContent(element.querySelector('.popup__type'), first.offer.type);
-  setTextContent(element.querySelector('.popup__text--capacity'), first.offer.rooms + ' комнаты для ' + first.offer.guests + ' гостей');
-  setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + first.offer.checkin + ', выезд до ' + first.offer.checkout);
+  setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
+  setTextContent(element.querySelector('.popup__text--address'), firstCard.offer.address);
+  setTextContent(element.querySelector('.popup__text--price'), firstCard.offer.price + '₽/ночь');
+  setTextContent(element.querySelector('.popup__type'), firstCard.offer.type);
+  setTextContent(element.querySelector('.popup__text--capacity'), firstCard.offer.rooms + ' комнаты для ' + firstCard.offer.guests + ' гостей');
+  setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + firstCard.offer.checkin + ', выезд до ' + firstCard.offer.checkout);
 
   var features = element.querySelectorAll('.popup__feature');
   for (var j = 0; j < features.length; j++) {
-    if (first.offer.features[j]) {
-      setTextContent(features[j], first.offer.features[j]);
+    if (firstCard.offer.features[j]) {
+      setTextContent(features[j], firstCard.offer.features[j]);
     } else {
       features[j].style = 'display: none;';
     }
   }
 
-  setTextContent(element.querySelector('.popup__title'), first.offer.title);
+  setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
 
   for (var i = 0; i < photos.children.length; i++) {
     if (i > 1) {
       photos.append(document.createElement('img'));
     }
     var photo = photos.children[i];
-    photo.src = first.offer.photos[i];
+    photo.src = firstCard.offer.photos[i];
   }
 
-  avatar.src = first.author.avatar;
+  avatar.src = firstCard.author.avatar;
 
   fragment.appendChild(element);
 
@@ -207,4 +206,4 @@ map.classList.remove('map--faded');
 
 fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
 
-map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)), filtersContainer);
+map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
