@@ -64,7 +64,7 @@ function randomInteger(min, max) {
  * @param {Object[]} array Массив фиксированной длины.
  * @return {Object[]} Массив случайной длины.
  */
-function randomLengthArray(array) {
+function getRandomLengthArray(array) {
   var arr = [];
   for (var j = 0; j < randomInteger(1, array.length); j++) {
     arr.push(array[j]);
@@ -104,9 +104,9 @@ function createAds(count, title, type, time, features, photos) {
         'guests': randomInteger(1, Number.MAX_SAFE_INTEGER),
         'checkin': time[randomInteger(0, time.length - 1)],
         'checkout': time[randomInteger(0, time.length - 1)],
-        'features': randomLengthArray(features),
+        'features': getRandomLengthArray(features),
         'description': '',
-        'photos': randomLengthArray(photos)
+        'photos': getRandomLengthArray(photos)
       }
     };
 
@@ -177,7 +177,7 @@ function createCard(firstCard) {
 
   setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
 
-  for (var i = 0; i < photos.children.length; i++) {
+  for (var i = 0; i < firstCard.offer.photos.length; i++) {
     if (i > 1) {
       photos.append(document.createElement('img'));
     }
