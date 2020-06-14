@@ -200,3 +200,5 @@ function fillMarks(fragment) {
 map.classList.remove('map--faded');
 
 fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
+
+map.insertBefore(createCards(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)), filtersContainer);
