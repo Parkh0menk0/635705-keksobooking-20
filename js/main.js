@@ -167,18 +167,13 @@ function createCard(generated) {
   setTextContent(element.querySelector('.popup__text--capacity'), first.offer.rooms + ' комнаты для ' + first.offer.guests + ' гостей');
   setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + first.offer.checkin + ', выезд до ' + first.offer.checkout);
 
-  if (first.offer.features.includes('wifi')) {
-    setTextContent(element.querySelector('.popup__feature--wifi'), first.offer.features[0]);
-  } else if (first.offer.features.includes('dishwasher')) {
-    setTextContent(element.querySelector('.popup__feature--dishwasher'), first.offer.features[1]);
-  } else if (first.offer.features.includes('parking')) {
-    setTextContent(element.querySelector('.popup__feature--parking'), first.offer.features[2]);
-  } else if (first.offer.features.includes('washer')) {
-    setTextContent(element.querySelector('.popup__feature--washer'), first.offer.features[3]);
-  } else if (first.offer.features.includes('elevator')) {
-    setTextContent(element.querySelector('.popup__feature--elevator'), first.offer.features[4]);
-  } else if (first.offer.features.includes('conditioner')) {
-    setTextContent(element.querySelector('.popup__feature--conditioner'), first.offer.features[5]);
+  var features = element.querySelectorAll('.popup__feature');
+  for (var j = 0; j < features.length; j++) {
+    if (first.offer.features[j]) {
+      setTextContent(features[j], first.offer.features[j]);
+    } else {
+      features[j].style = 'display: none;';
+    }
   }
 
   setTextContent(element.querySelector('.popup__title'), first.offer.title);
