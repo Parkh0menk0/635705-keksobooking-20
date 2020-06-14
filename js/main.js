@@ -55,7 +55,7 @@ var filtersContainer = map.querySelector('.map__filters-container');
  * @param {number} max Максимальное целое число.
  * @return {number} Случайное целое число.
  */
-function randomInteger(min, max) {
+function getRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 }
 
@@ -66,7 +66,7 @@ function randomInteger(min, max) {
  */
 function getRandomLengthArray(array) {
   var arr = [];
-  for (var j = 0; j < randomInteger(1, array.length); j++) {
+  for (var j = 0; j < getRandomInteger(1, array.length); j++) {
     arr.push(array[j]);
   }
   return arr;
@@ -87,8 +87,8 @@ function createAds(count, title, type, time, features, photos) {
 
   for (var i = 0; i < count; i++) {
     var location = {
-      'x': randomInteger(0, 1150),
-      'y': randomInteger(130, 630)
+      'x': getRandomInteger(0, 1150),
+      'y': getRandomInteger(130, 630)
     };
     var ad = {
       'author': {
@@ -98,12 +98,12 @@ function createAds(count, title, type, time, features, photos) {
       'offer': {
         'title': title[i],
         'address': location.x + ', ' + location.y,
-        'price': randomInteger(1000, 1000000),
-        'type': type[randomInteger(0, type.length - 1)],
-        'rooms': randomInteger(1, 5),
-        'guests': randomInteger(1, Number.MAX_SAFE_INTEGER),
-        'checkin': time[randomInteger(0, time.length - 1)],
-        'checkout': time[randomInteger(0, time.length - 1)],
+        'price': getRandomInteger(1000, 1000000),
+        'type': type[getRandomInteger(0, type.length - 1)],
+        'rooms': getRandomInteger(1, 5),
+        'guests': getRandomInteger(1, Number.MAX_SAFE_INTEGER),
+        'checkin': time[getRandomInteger(0, time.length - 1)],
+        'checkout': time[getRandomInteger(0, time.length - 1)],
         'features': getRandomLengthArray(features),
         'description': '',
         'photos': getRandomLengthArray(photos)
