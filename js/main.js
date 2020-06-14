@@ -86,14 +86,15 @@ function createAds(count, title, type, time, features, photos) {
   var ads = [];
 
   for (var i = 0; i < count; i++) {
+    var location = {
+      'x': randomInteger(0, 1150),
+      'y': randomInteger(130, 630)
+    };
     var ad = {
       'author': {
         'avatar': 'img/avatars/user0' + (i + 1) + '.png'
       },
-      'location': {
-        'x': randomInteger(0, 1150),
-        'y': randomInteger(130, 630)
-      },
+      'location': location,
       'offer': {
         'title': title[i],
         'address': location.x + ', ' + location.y,
