@@ -49,6 +49,7 @@ var OFFSET = {
 var map = document.querySelector('.map');
 // var filtersContainer = map.querySelector('.map__filters-container');
 var mainPin = document.querySelector('.map__pin--main');
+var fieldsets = document.querySelectorAll('.ad-form__element');
 
 /**
  * @description Генерирует случайные данные.
@@ -227,3 +228,7 @@ function setActiveState() {
 // map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
 
 mainPin.addEventListener('mousedown', setActiveState);
+
+fieldsets.forEach(function (fieldset) {
+  fieldset.disabled = true;
+});
