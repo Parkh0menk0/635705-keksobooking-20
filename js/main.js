@@ -48,6 +48,7 @@ var OFFSET = {
 
 var map = document.querySelector('.map');
 // var filtersContainer = map.querySelector('.map__filters-container');
+var mainPin = document.querySelector('.map__pin--main');
 
 /**
  * @description Генерирует случайные данные.
@@ -214,8 +215,15 @@ function fillMarks(fragment) {
   list.appendChild(fragment);
 }
 
-map.classList.remove('map--faded');
+/**
+ * @description Переводит страницу в активное состояние.
+ */
+function setActiveState() {
+  map.classList.remove('map--faded');
 
-fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
+  fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
+}
 
 // map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
+
+mainPin.addEventListener('mousedown', setActiveState);
