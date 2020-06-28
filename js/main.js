@@ -217,6 +217,22 @@ function fillMarks(fragment) {
 }
 
 /**
+ * @description Возвращает значение, соответствующее нажатой кнопки мыши.
+ * @param {Object} evt событие, которое происходит в DOM.
+ * @return {number} Число, соответстующее нажатой кнопке (0: основная кнопка, 1: вспомогательная кнопка, 2: вторичная кнопка, 3: четвёртая кнопка мыши, 4: пятая кнопка мыши).
+ */
+function whichButton(evt) {
+  var e = evt || window.event;
+  var btnCode;
+
+  if (typeof e === 'object') {
+    btnCode = e.button;
+  }
+
+  return btnCode;
+}
+
+/**
  * @description Переводит страницу в активное состояние.
  */
 function setActiveState() {
@@ -227,7 +243,11 @@ function setActiveState() {
 
 // map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
 
-mainPin.addEventListener('mousedown', setActiveState);
+mainPin.addEventListener('mousedown', function (evt) {
+  if (whichButton(evt) === 0) {
+    setActiveState();
+  }
+});
 
 fieldsets.forEach(function (fieldset) {
   fieldset.disabled = true;
