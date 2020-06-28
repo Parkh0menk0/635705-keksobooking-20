@@ -252,3 +252,9 @@ mainPin.addEventListener('mousedown', function (evt) {
 fieldsets.forEach(function (fieldset) {
   fieldset.disabled = true;
 });
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    setActiveState();
+  }
+});
