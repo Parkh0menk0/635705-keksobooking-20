@@ -52,6 +52,7 @@ var mainPin = document.querySelector('.map__pin--main');
 var fieldsets = document.querySelectorAll('.ad-form__element');
 var form = document.querySelector('.ad-form');
 var address = form.querySelector('input[name=address]');
+var isActive = false;
 
 /**
  * @description Генерирует случайные данные.
@@ -226,7 +227,7 @@ function fillMarks(fragment) {
 function onButtonMousedown(evt) {
   if (evt.button === 0) {
     setActiveState();
-    setAddress(mainPin);
+    setAddress(mainPin, isActive);
   }
   mainPin.removeEventListener('mousedown', onButtonMousedown, false);
 }
@@ -246,9 +247,14 @@ function onButtonKeydown(evt) {
 /**
  * @description Устанавливает значения поля ввода адреса.
  * @param {Object} pin Объект метки.
+ * @param {boolean} state Флаг, указывающий6 активна ли страница.
  */
-function setAddress(pin) {
-  address.value = (pin.offsetLeft + pin.clientWidth / 2) + ', ' + (pin.offsetTop + pin.clientHeight / 2);
+function setAddress(pin, state) {
+  if (state) {
+    address.value = (pin.offsetLeft + pin.clientWidth / 2) + ', ' + (pin.offsetTop + pin.clientHeight / 2);
+  } else {
+    address.value = (pin.offsetLeft + pin.clientWidth / 2) + ', ' + (pin.offsetTop + pin.clientHeight);
+  }
 }
 
 /**
@@ -258,7 +264,10 @@ function setActiveState() {
   map.classList.remove('map--faded');
   fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
   form.classList.remove('ad-form--disabled');
+  isActive = true;
 }
+
+setAddress(mainPin, isActive);
 
 // map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
 
