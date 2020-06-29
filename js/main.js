@@ -50,6 +50,8 @@ var map = document.querySelector('.map');
 // var filtersContainer = map.querySelector('.map__filters-container');
 var mainPin = document.querySelector('.map__pin--main');
 var fieldsets = document.querySelectorAll('.ad-form__element');
+var form = document.querySelector('.ad-form');
+var address = form.querySelector('input[name=address]');
 
 /**
  * @description Генерирует случайные данные.
@@ -224,6 +226,7 @@ function fillMarks(fragment) {
 function onButtonMousedown(evt) {
   if (evt.button === 0) {
     setActiveState();
+    setAddress(mainPin);
   }
   mainPin.removeEventListener('mousedown', onButtonMousedown, false);
 }
@@ -241,12 +244,20 @@ function onButtonKeydown(evt) {
 }
 
 /**
+ * @description Устанавливает значения поля ввода адреса.
+ * @param {Object} pin Объект метки.
+ */
+function setAddress(pin) {
+  address.value = (pin.offsetLeft + pin.clientWidth / 2) + ', ' + (pin.offsetTop + pin.clientHeight / 2);
+}
+
+/**
  * @description Переводит страницу в активное состояние.
  */
 function setActiveState() {
   map.classList.remove('map--faded');
-
   fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
+  form.classList.remove('ad-form--disabled');
 }
 
 // map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
