@@ -46,6 +46,16 @@ var OFFSET = {
   y: 70
 };
 
+var ROOMS_CAPACITY = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
+
+var selectRoomNumber = document.querySelector('#room_number');
+var selectCapacity = document.querySelector('#capacity');
+
 var map = document.querySelector('.map');
 // var filtersContainer = map.querySelector('.map__filters-container');
 var mainPin = document.querySelector('.map__pin--main');
@@ -245,11 +255,29 @@ function onButtonKeydown(evt) {
 }
 
 /**
+ * Callback-функция, устанавливает соответствия количества гостей (спальных мест) с количеством комнат.
+ * @callback onSelectRoomNuberChange
+ */
+function onSelectRoomNuberChange() {
+  if (selectCapacity.options.length) {
+    Array.from(selectCapacity.options).forEach(function (item) {
+      var value = ROOMS_CAPACITY[selectRoomNumber.value];
+      var isHidden = !(value.indexOf(item.value) >= 0);
+
+      item.hidden = isHidden;
+      item.disabled = isHidden;
+      item.selected = value[0] === item.value;
+    });
+  }
+}
+
+/**
  * @description Устанавливает значения поля ввода адреса.
  * @param {Object} pin Объект метки.
  * @param {boolean} state Флаг, указывающий6 активна ли страница.
  */
 function setAddress(pin, state) {
+  address.style.cursor = 'not-allowed';
   if (state) {
     address.value = (pin.offsetLeft + pin.clientWidth / 2) + ', ' + (pin.offsetTop + pin.clientHeight / 2);
   } else {
@@ -264,6 +292,11 @@ function setActiveState() {
   map.classList.remove('map--faded');
   fillMarks(createMarks(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)));
   form.classList.remove('ad-form--disabled');
+
+  fieldsets.forEach(function (fieldset) {
+    fieldset.disabled = false;
+  });
+
   isActive = true;
 }
 
@@ -278,3 +311,7 @@ fieldsets.forEach(function (fieldset) {
 });
 
 mainPin.addEventListener('keydown', onButtonKeydown, false);
+
+selectRoomNumber.addEventListener('change', onSelectRoomNuberChange, false);
+
+onSelectRoomNuberChange();
