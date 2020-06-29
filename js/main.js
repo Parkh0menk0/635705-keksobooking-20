@@ -217,19 +217,27 @@ function fillMarks(fragment) {
 }
 
 /**
- * @description Возвращает значение, соответствующее нажатой кнопки мыши.
+ * Callback-функция, для активации страницы левой кнопкой мыши.
+ * @callback onButtonMousedown
  * @param {Object} evt событие, которое происходит в DOM.
- * @return {number} Число, соответстующее нажатой кнопке (0: основная кнопка, 1: вспомогательная кнопка, 2: вторичная кнопка, 3: четвёртая кнопка мыши, 4: пятая кнопка мыши).
  */
-function whichButton(evt) {
-  var e = evt || window.event;
-  var btnCode;
-
-  if (typeof e === 'object') {
-    btnCode = e.button;
+function onButtonMousedown(evt) {
+  if (evt.button === 0) {
+    setActiveState();
   }
+  mainPin.removeEventListener('mousedown', onButtonMousedown, false);
+}
 
-  return btnCode;
+/**
+ * Callback-функция, для активации страницы клавишей Enter.
+ * @callback onButtonMousedown
+ * @param {Object} evt событие, которое происходит в DOM.
+ */
+function onButtonKeydown(evt) {
+  if (evt.key === 'Enter') {
+    setActiveState();
+  }
+  mainPin.removeEventListener('keydown', onButtonKeydown, false);
 }
 
 /**
@@ -243,18 +251,10 @@ function setActiveState() {
 
 // map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
 
-mainPin.addEventListener('mousedown', function (evt) {
-  if (whichButton(evt) === 0) {
-    setActiveState();
-  }
-});
+mainPin.addEventListener('mousedown', onButtonMousedown, false);
 
 fieldsets.forEach(function (fieldset) {
   fieldset.disabled = true;
 });
 
-mainPin.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
-    setActiveState();
-  }
-});
+mainPin.addEventListener('keydown', onButtonKeydown, false);
