@@ -57,7 +57,7 @@ var selectRoomNumber = document.querySelector('#room_number');
 var selectCapacity = document.querySelector('#capacity');
 
 var map = document.querySelector('.map');
-// var filtersContainer = map.querySelector('.map__filters-container');
+var filtersContainer = map.querySelector('.map__filters-container');
 var mainPin = document.querySelector('.map__pin--main');
 var fieldsets = document.querySelectorAll('.ad-form__element');
 var form = document.querySelector('.ad-form');
@@ -158,66 +158,66 @@ function createMarks(generated) {
  * @param {Object} element Элемент DOM.
  * @param {String} value Текстовое значение.
  */
-// function setTextContent(element, value) {
-//   element.textContent = value;
-// }
+function setTextContent(element, value) {
+  element.textContent = value;
+}
 
 /**
  * @description Добавляет фотографии DOM-элементу.
  * @param {Object} photos DOM-элемент, содержащий фото.
  * @param {Object[]} photoArr Массив, содержащий фото.
  */
-// function setPhotoContent(photos, photoArr) {
-//   for (var i = 0; i < photoArr.length; i++) {
-//     if (i >= 1) {
-//       var img = document.createElement('img');
-//       img.classList.add('popup__photo');
-//       img.style.width = '45px';
-//       img.style.height = '40px';
-//       photos.append(img);
-//     }
-//     var photo = photos.children[i];
-//     photo.src = photoArr[i];
-//   }
-// }
+function setPhotoContent(photos, photoArr) {
+  for (var i = 0; i < photoArr.length; i++) {
+    if (i >= 1) {
+      var img = document.createElement('img');
+      img.classList.add('popup__photo');
+      img.style.width = '45px';
+      img.style.height = '40px';
+      photos.append(img);
+    }
+    var photo = photos.children[i];
+    photo.src = photoArr[i];
+  }
+}
 
 /**
  * @description Создаёт DOM-элемент карточеки объявления на основе первого элемента массива JS-объектов.
  * @param {Object} firstCard Сгенерированный массив объявлений.
  * @return {Object} DocumentFragment.
  */
-// function createCard(firstCard) {
-//   var template = document.querySelector('#card').content.querySelector('article');
-//   var fragment = document.createDocumentFragment();
-//   var element = template.cloneNode(true);
-//   var avatar = element.querySelector('.popup__avatar');
-//   var photos = element.querySelector('.popup__photos');
+function createCard(firstCard) {
+  var template = document.querySelector('#card').content.querySelector('article');
+  var fragment = document.createDocumentFragment();
+  var element = template.cloneNode(true);
+  var avatar = element.querySelector('.popup__avatar');
+  var photos = element.querySelector('.popup__photos');
 
-//   setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
-//   setTextContent(element.querySelector('.popup__text--address'), firstCard.offer.address);
-//   setTextContent(element.querySelector('.popup__text--price'), firstCard.offer.price + '₽/ночь');
-//   setTextContent(element.querySelector('.popup__type'), firstCard.offer.type);
-//   setTextContent(element.querySelector('.popup__text--capacity'), firstCard.offer.rooms + ' комнаты для ' + firstCard.offer.guests + ' гостей');
-//   setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + firstCard.offer.checkin + ', выезд до ' + firstCard.offer.checkout);
+  setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
+  setTextContent(element.querySelector('.popup__text--address'), firstCard.offer.address);
+  setTextContent(element.querySelector('.popup__text--price'), firstCard.offer.price + '₽/ночь');
+  setTextContent(element.querySelector('.popup__type'), firstCard.offer.type);
+  setTextContent(element.querySelector('.popup__text--capacity'), firstCard.offer.rooms + ' комнаты для ' + firstCard.offer.guests + ' гостей');
+  setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + firstCard.offer.checkin + ', выезд до ' + firstCard.offer.checkout);
 
-//   var features = element.querySelectorAll('.popup__feature');
-//   for (var j = 0; j < features.length; j++) {
-//     if (firstCard.offer.features[j]) {
-//       setTextContent(features[j], firstCard.offer.features[j]);
-//     } else {
-//       features[j].style = 'display: none;';
-//     }
-//   }
+  var features = element.querySelectorAll('.popup__feature');
+  for (var j = 0; j < features.length; j++) {
+    if (firstCard.offer.features[j]) {
+      setTextContent(features[j], firstCard.offer.features[j]);
+    } else {
+      features[j].style = 'display: none;';
+    }
+  }
 
-//   setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
-//   setPhotoContent(photos, firstCard.offer.photos);
+  setTextContent(element.querySelector('.popup__title'), firstCard.offer.title);
+  setPhotoContent(photos, firstCard.offer.photos);
 
-//   avatar.src = firstCard.author.avatar;
+  avatar.src = firstCard.author.avatar;
 
-//   fragment.appendChild(element);
+  fragment.appendChild(element);
 
-//   return fragment;
-// }
+  return fragment;
+}
 
 /**
  * @description Заполняет блок DOM-элементами на основе массива JS-объектов.
@@ -279,9 +279,9 @@ function onSelectRoomNuberChange() {
 function setAddress(pin, state) {
   address.style.cursor = 'not-allowed';
   if (state) {
-    address.value = (pin.offsetLeft + pin.clientWidth / 2) + ', ' + (pin.offsetTop + pin.clientHeight / 2);
+    address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2));
   } else {
-    address.value = (pin.offsetLeft + pin.clientWidth / 2) + ', ' + (pin.offsetTop + pin.clientHeight);
+    address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
   }
 }
 
@@ -302,7 +302,7 @@ function setActiveState() {
 
 setAddress(mainPin, isActive);
 
-// map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
+map.insertBefore(createCard(createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS)[0]), filtersContainer);
 
 mainPin.addEventListener('mousedown', onButtonMousedown, false);
 
