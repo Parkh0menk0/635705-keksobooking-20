@@ -307,6 +307,26 @@ function showCard(node) {
 }
 
 /**
+ * @description Закрывает модальное окно.
+ * @param {Node} card DOM-узел карточки.
+ */
+function closePopup(card) {
+  card.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+}
+
+/**
+ * @description Оработчик закрытия окна по нажатию на Esc.
+ * @param {Object} evt Объект события.
+ */
+function onPopupEscPress(evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closePopup();
+  }
+}
+
+/**
  * @description Переводит страницу в активное состояние.
  */
 function setActiveState() {
@@ -325,6 +345,23 @@ function setActiveState() {
   Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)')).forEach(function (item, i) {
     item.addEventListener('click', function () {
       showCard(document.querySelectorAll('.map__card')[i]);
+    });
+  });
+
+  Array.from(document.querySelectorAll('.popup__close')).forEach(function (item, i) {
+    item.addEventListener('click', function () {
+      var card = document.querySelectorAll('.map__card')[i];
+      closePopup(card);
+    });
+  });
+
+  Array.from(document.querySelectorAll('.popup__close')).forEach(function (item, i) {
+    item.addEventListener('keydown', function (evt) {
+      var card = document.querySelectorAll('.map__card')[i];
+
+      if (evt.key === 'Enter') {
+        closePopup(card);
+      }
     });
   });
 }
