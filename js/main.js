@@ -190,7 +190,6 @@ function setPhotoContent(photos, photoArr) {
  */
 function createCard(cardData) {
   var template = document.querySelector('#card').content.querySelector('article');
-  var fragment = document.createDocumentFragment();
   var element = template.cloneNode(true);
   var avatar = element.querySelector('.popup__avatar');
   var photos = element.querySelector('.popup__photos');
@@ -216,9 +215,9 @@ function createCard(cardData) {
 
   avatar.src = cardData.author.avatar;
 
-  fragment.appendChild(element);
+  element.classList.add('hidden');
 
-  return fragment;
+  return element;
 }
 
 /**
@@ -288,16 +287,23 @@ function setAddress(pin, state) {
 }
 
 /**
- * @description Отрисовывает карточку объявления.
- * @param {NodeList} nodeList Объект NodeList объявлений.
+ * @description Добавляет карточки объявления в разметку.
  * @param {Object[]} list Массив объявлений.
  */
-function showCard(nodeList, list) {
-  Array.from(nodeList).forEach(function (item, i) {
-    item.addEventListener('click', function () {
-      map.insertBefore(createCard(list[i]), filtersContainer);
-    });
+function addCards(list) {
+  var fragment = document.createDocumentFragment();
+  list.forEach(function (item) {
+    fragment.appendChild(createCard(item));
   });
+  map.insertBefore(fragment, filtersContainer);
+}
+
+/**
+ * @description Отрисовывает карточку объявления.
+ * @param {Node} node DOM-узел объявлений.
+ */
+function showCard(node) {
+  node.classList.toggle('hidden');
 }
 
 /**
@@ -314,7 +320,13 @@ function setActiveState() {
 
   isActive = true;
 
-  showCard(document.querySelectorAll('.map__pin:not(.map__pin--main)'), ads);
+  addCards(ads);
+
+  Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)')).forEach(function (item, i) {
+    item.addEventListener('click', function () {
+      showCard(document.querySelectorAll('.map__card')[i]);
+    });
+  });
 }
 
 setAddress(mainPin, isActive);
