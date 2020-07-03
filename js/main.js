@@ -303,27 +303,21 @@ function addCards(list) {
  * @param {Node} node DOM-узел объявлений.
  */
 function showCard(node) {
-  node.classList.toggle('hidden');
+  node.classList.remove('hidden');
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      node.classList.add('hidden');
+    }
+  });
 }
 
 /**
  * @description Закрывает модальное окно.
  * @param {Node} card DOM-узел карточки.
  */
-function closePopup(card) {
+function hideCard(card) {
   card.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscPress);
-}
-
-/**
- * @description Оработчик закрытия окна по нажатию на Esc.
- * @param {Object} evt Объект события.
- */
-function onPopupEscPress(evt) {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    closePopup();
-  }
 }
 
 /**
@@ -342,26 +336,24 @@ function setActiveState() {
 
   addCards(ads);
 
-  Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)')).forEach(function (item, i) {
-    item.addEventListener('click', function () {
-      showCard(document.querySelectorAll('.map__card')[i]);
-    });
-  });
+  var mapPin = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
+  var mapCard = document.querySelectorAll('.map__card');
 
-  Array.from(document.querySelectorAll('.popup__close')).forEach(function (item, i) {
+  mapPin.forEach(function (item, i) {
     item.addEventListener('click', function () {
-      var card = document.querySelectorAll('.map__card')[i];
-      closePopup(card);
+      showCard(mapCard[i]);
     });
-  });
 
-  Array.from(document.querySelectorAll('.popup__close')).forEach(function (item, i) {
     item.addEventListener('keydown', function (evt) {
-      var card = document.querySelectorAll('.map__card')[i];
-
       if (evt.key === 'Enter') {
-        closePopup(card);
+        showCard(mapCard[i]);
       }
+    });
+  });
+
+  Array.from(document.querySelectorAll('.popup__close')).forEach(function (item, i) {
+    item.addEventListener('click', function () {
+      hideCard(mapCard[i]);
     });
   });
 }
