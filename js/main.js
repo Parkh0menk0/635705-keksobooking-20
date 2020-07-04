@@ -66,6 +66,8 @@ var selectRoomNumber = document.querySelector('#room_number');
 var selectCapacity = document.querySelector('#capacity');
 var selectType = document.querySelector('#type');
 var selectPrice = document.querySelector('#price');
+var selectTimein = document.querySelector('#timein');
+var selectTimeout = document.querySelector('#timeout');
 
 var map = document.querySelector('.map');
 var filtersContainer = map.querySelector('.map__filters-container');
@@ -415,3 +417,11 @@ selectType.addEventListener('change', onSelectRoomPriceChange, false);
 
 selectPrice.min = ROOMS_PRICE[selectType.options[selectType.options.selectedIndex].value];
 selectPrice.placeholder = ROOMS_PRICE[selectType.options[selectType.options.selectedIndex].value];
+
+selectTimein.addEventListener('change', function () {
+  selectTimeout.options.selectedIndex = selectTimein.options.selectedIndex;
+}, false);
+
+selectTimeout.addEventListener('change', function () {
+  selectTimein.options.selectedIndex = selectTimeout.options.selectedIndex;
+}, false);
