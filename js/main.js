@@ -53,10 +53,19 @@ var ROOMS_CAPACITY = {
   '100': ['0']
 };
 
+var ROOMS_PRICE = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+
 var ads = createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS);
 
 var selectRoomNumber = document.querySelector('#room_number');
 var selectCapacity = document.querySelector('#capacity');
+var selectType = document.querySelector('#type');
+var selectPrice = document.querySelector('#price');
 
 var map = document.querySelector('.map');
 var filtersContainer = map.querySelector('.map__filters-container');
@@ -196,7 +205,7 @@ function createCard(cardData) {
 
   setTextContent(element.querySelector('.popup__title'), cardData.offer.title);
   setTextContent(element.querySelector('.popup__text--address'), cardData.offer.address);
-  setTextContent(element.querySelector('.popup__text--price'), cardData.offer.price + '₽/ночь');
+  setTextContent(element.querySelector('.popup__text--price'), cardData.offer.price + ' ₽/ночь');
   setTextContent(element.querySelector('.popup__type'), cardData.offer.type);
   setTextContent(element.querySelector('.popup__text--capacity'), cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей');
   setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout);
@@ -257,9 +266,9 @@ function onButtonKeydown(evt) {
 
 /**
  * Callback-функция, устанавливает соответствия количества гостей (спальных мест) с количеством комнат.
- * @callback onSelectRoomNuberChange
+ * @callback onSelectRoomNumberChange
  */
-function onSelectRoomNuberChange() {
+function onSelectRoomNumberChange() {
   if (selectCapacity.options.length) {
     Array.from(selectCapacity.options).forEach(function (item) {
       var value = ROOMS_CAPACITY[selectRoomNumber.value];
@@ -269,6 +278,36 @@ function onSelectRoomNuberChange() {
       item.disabled = isHidden;
       item.selected = value[0] === item.value;
     });
+  }
+}
+
+/**
+ * Callback-функция, устанавливает соответствия цуны и жилья.
+ * @callback onSelectRoomNumberChange
+ */
+function onSelectRoomPriceChange() {
+  if (selectType.options.length) {
+    switch (window.event.target.value) {
+      case 'bungalo':
+        selectPrice.min = 0;
+        selectPrice.placeholder = 0;
+        break;
+      case 'flat':
+        selectPrice.min = 1000;
+        selectPrice.placeholder = 1000;
+        break;
+      case 'house':
+        selectPrice.min = 5000;
+        selectPrice.placeholder = 5000;
+        break;
+      case 'palace':
+        selectPrice.min = 10000;
+        selectPrice.placeholder = 10000;
+        break;
+      default:
+        selectPrice.min = null;
+        selectPrice.placeholder = null;
+    }
   }
 }
 
@@ -368,6 +407,11 @@ fieldsets.forEach(function (fieldset) {
 
 mainPin.addEventListener('keydown', onButtonKeydown, false);
 
-selectRoomNumber.addEventListener('change', onSelectRoomNuberChange, false);
+selectRoomNumber.addEventListener('change', onSelectRoomNumberChange, false);
 
-onSelectRoomNuberChange();
+onSelectRoomNumberChange();
+
+selectType.addEventListener('change', onSelectRoomPriceChange, false);
+
+selectPrice.min = ROOMS_PRICE[selectType.options[selectType.options.selectedIndex].value];
+selectPrice.placeholder = ROOMS_PRICE[selectType.options[selectType.options.selectedIndex].value];
