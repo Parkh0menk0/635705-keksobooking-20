@@ -179,15 +179,6 @@ function createMarks(generated) {
 }
 
 /**
- * @description Добавляет значение DOM-элементу.
- * @param {Object} element Элемент DOM.
- * @param {String} value Текстовое значение.
- */
-function setTextContent(element, value) {
-  element.textContent = value;
-}
-
-/**
  * @description Добавляет фотографии DOM-элементу.
  * @param {Object} photos DOM-элемент, содержащий фото.
  * @param {Object[]} photoArr Массив, содержащий фото.
@@ -217,23 +208,23 @@ function createCard(cardData) {
   var avatar = element.querySelector('.popup__avatar');
   var photos = element.querySelector('.popup__photos');
 
-  setTextContent(element.querySelector('.popup__title'), cardData.offer.title);
-  setTextContent(element.querySelector('.popup__text--address'), cardData.offer.address);
-  setTextContent(element.querySelector('.popup__text--price'), cardData.offer.price + ' ₽/ночь');
-  setTextContent(element.querySelector('.popup__type'), cardData.offer.type);
-  setTextContent(element.querySelector('.popup__text--capacity'), cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей');
-  setTextContent(element.querySelector('.popup__text--time'), 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout);
+  element.querySelector('.popup__title').textContent = cardData.offer.title;
+  element.querySelector('.popup__text--address').textContent = cardData.offer.address;
+  element.querySelector('.popup__text--price').textContent = cardData.offer.price + ' ₽/ночь';
+  element.querySelector('.popup__type').textContent = cardData.offer.type;
+  element.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
+  element.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
 
   var features = element.querySelectorAll('.popup__feature');
   for (var j = 0; j < features.length; j++) {
     if (cardData.offer.features[j]) {
-      setTextContent(features[j], cardData.offer.features[j]);
+      features[j].textContent = cardData.offer.features[j];
     } else {
       features[j].style = 'display: none;';
     }
   }
 
-  setTextContent(element.querySelector('.popup__title'), cardData.offer.title);
+  element.querySelector('.popup__title').textContent = cardData.offer.title;
   setPhotoContent(photos, cardData.offer.photos);
 
   avatar.src = cardData.author.avatar;
