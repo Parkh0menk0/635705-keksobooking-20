@@ -20,6 +20,25 @@ var TYPE = [
   'bungalo'
 ];
 
+var types = {
+  palace: {
+    ru: 'Дворец',
+    min: 10000
+  },
+  flat: {
+    ru: 'Квартира',
+    min: 1000
+  },
+  house: {
+    ru: 'Дом',
+    min: 5000
+  },
+  bungalo: {
+    ru: 'Бунгало',
+    min: 0
+  }
+};
+
 var TIME = [
   '12:00',
   '13:00',
@@ -51,13 +70,6 @@ var ROOMS_CAPACITY = {
   '2': ['2', '1'],
   '3': ['3', '2', '1'],
   '100': ['0']
-};
-
-var ROOMS_PRICE = {
-  'bungalo': 0,
-  'flat': 1000,
-  'house': 5000,
-  'palace': 10000
 };
 
 var ads = createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS);
@@ -286,30 +298,12 @@ function onSelectRoomNumberChange() {
 /**
  * Callback-функция, устанавливает соответствия цуны и жилья.
  * @callback onSelectRoomNumberChange
+ * @param {Object} evt событие, которое происходит в DOM.
  */
 function onSelectRoomPriceChange() {
   if (selectType.options.length) {
-    switch (window.event.target.value) {
-      case 'bungalo':
-        selectPrice.min = 0;
-        selectPrice.placeholder = 0;
-        break;
-      case 'flat':
-        selectPrice.min = 1000;
-        selectPrice.placeholder = 1000;
-        break;
-      case 'house':
-        selectPrice.min = 5000;
-        selectPrice.placeholder = 5000;
-        break;
-      case 'palace':
-        selectPrice.min = 10000;
-        selectPrice.placeholder = 10000;
-        break;
-      default:
-        selectPrice.min = null;
-        selectPrice.placeholder = null;
-    }
+    selectPrice.min = types[selectPrice.value].min;
+    selectPrice.placeholder = types[selectPrice.value].min;
   }
 }
 
@@ -415,8 +409,7 @@ onSelectRoomNumberChange();
 
 selectType.addEventListener('change', onSelectRoomPriceChange, false);
 
-selectPrice.min = ROOMS_PRICE[selectType.options[selectType.options.selectedIndex].value];
-selectPrice.placeholder = ROOMS_PRICE[selectType.options[selectType.options.selectedIndex].value];
+onSelectRoomPriceChange();
 
 selectTimein.addEventListener('change', function () {
   selectTimeout.options.selectedIndex = selectTimein.options.selectedIndex;
