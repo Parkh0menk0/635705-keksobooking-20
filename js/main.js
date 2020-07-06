@@ -95,9 +95,10 @@ var address = form.querySelector('input[name=address]');
 
 /**
  * @description Проверяет активна ли страница.
+ * @return {boolean} Активна или нет страница.
  */
 function checkMapState() {
-  map.classList.contains('map--faded');
+  return map.classList.contains('map--faded');
 }
 
 /**
@@ -168,25 +169,68 @@ function createAds(count, title, type, time, features, photos) {
 }
 
 /**
+ * @description Удаляет карточку.
+ */
+function removeCard() {
+  var popup = map.querySelector('.popup');
+
+  if (popup) {
+    popup.remove();
+  }
+}
+
+/**
+ * @description Удаляет активный класс карточки.
+ */
+function removeActiveClass() {
+  var active = map.querySelector('.map__pin--active');
+
+  if (active) {
+    active.classList.remove('map__pin--active');
+  }
+}
+
+/**
+ * @description Создаёт DOM-элемент отметки на карте на основе JS-объекта.
+ * @param {Object} pin Обьект сгенерированного массива объявлений.
+ * @return {Object} DOM-элемент отметки на карте.
+ */
+function createMark(pin) {
+  var template = document.querySelector('#pin').content.querySelector('button');
+  var element = template.cloneNode(true);
+  var avatar = element.querySelector('.map__pin img');
+  element.style.left = pin.location.x - OFFSET.x + 'px';
+  element.style.top = pin.location.y - OFFSET.y + 'px';
+  avatar.src = pin.author.avatar;
+  avatar.alt = pin.offer.title;
+
+  element.addEventListener('click', function () {
+    removeCard();
+
+    removeActiveClass();
+
+    element.classList.add('map__pin--active');
+
+    showCard(pin);
+  });
+
+  return element;
+}
+
+/**
  * @description Создаёт DOM-элементы отметок на карте на основе JS-объекта.
  * @param {Object[]} generated Сгенерированный массив объявлений.
- * @return {Object} DocumentFragment.
  */
-function createMarks(generated) {
-  var template = document.querySelector('#pin').content.querySelector('button');
+function createMarks() {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < generated.length; i++) {
-    var element = template.cloneNode(true);
-    var avatar = element.querySelector('.map__pin img');
-    element.style.left = generated[i].location.x - OFFSET.x + 'px';
-    element.style.top = generated[i].location.y - OFFSET.y + 'px';
-    avatar.src = generated[i].author.avatar;
-    avatar.alt = generated[i].offer.title;
-    fragment.appendChild(element);
+  for (var i = 0; i < ads.length; i++) {
+    fragment.appendChild(createMark(ads[i]));
   }
 
-  return fragment;
+  var list = document.querySelector('.map__pins');
+
+  list.appendChild(fragment);
 }
 
 /**
@@ -240,19 +284,7 @@ function createCard(cardData) {
 
   avatar.src = cardData.author.avatar;
 
-  element.classList.add('hidden');
-
   return element;
-}
-
-/**
- * @description Заполняет блок DOM-элементами на основе массива JS-объектов.
- * @param {Object} fragment DocumentFragment.
- */
-function fillMarks(fragment) {
-  var list = document.querySelector('.map__pins');
-
-  list.appendChild(fragment);
 }
 
 /**
@@ -298,9 +330,8 @@ function onSelectRoomNumberChange() {
 }
 
 /**
- * Callback-функция, устанавливает соответствия цены и жилья.
+ * Callback-функция, устанавливает соответствия цуны и жилья.
  * @callback onSelectRoomNumberChange
- * @param {Object} evt событие, которое происходит в DOM.
  */
 function onSelectRoomPriceChange() {
   if (selectType.options.length) {
@@ -312,36 +343,34 @@ function onSelectRoomPriceChange() {
 /**
  * @description Устанавливает значения поля ввода адреса.
  * @param {Object} pin Объект метки.
+ * @param {boolean} state Флаг, указывающий6 активна ли страница.
  */
 function setAddress(pin) {
   address.style.cursor = 'not-allowed';
-  address.value = checkMapState() ? (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2)) : (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
+  address.value = checkMapState() ? (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2)) : address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
 }
 
-/**
- * @description Добавляет карточки объявления в разметку.
- * @param {Object[]} list Массив объявлений.
- */
-function addCards(list) {
-  var fragment = document.createDocumentFragment();
-  list.forEach(function (item) {
-    fragment.appendChild(createCard(item));
-  });
-  map.insertBefore(fragment, filtersContainer);
+function onCardEscKeyDown(evt) {
+  if (evt.key === BUTTON.esc) {
+    evt.preventDefault();
+    removeCard();
+    removeActiveClass();
+    document.removeEventListener('keydown', onCardEscKeyDown);
+  }
 }
 
 /**
  * @description Отрисовывает карточку объявления.
- * @param {Node} node DOM-узел объявлений.
+ * @param {Node} pin DOM-узел объявлений.
  */
-function showCard(node) {
-  node.classList.remove('hidden');
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === BUTTON.esc) {
-      evt.preventDefault();
-      node.classList.add('hidden');
-    }
-  });
+function showCard(pin) {
+  var fragment = document.createDocumentFragment();
+
+  fragment.appendChild(createCard(pin));
+
+  map.insertBefore(fragment, filtersContainer);
+
+  document.addEventListener('keydown', onCardEscKeyDown);
 }
 
 /**
@@ -352,9 +381,6 @@ function hideCard(card) {
   card.classList.add('hidden');
 }
 
-/**
- * @description Задаёт активное состояние для не активных fieldset в форме и наоборот.
- */
 function setFieldsetState() {
   fieldsets.forEach(function (fieldset) {
     fieldset.disabled = !fieldset.disabled;
@@ -366,27 +392,12 @@ function setFieldsetState() {
  */
 function setActiveState() {
   map.classList.remove('map--faded');
-  fillMarks(createMarks(ads));
+  createMarks();
   form.classList.remove('ad-form--disabled');
 
   setFieldsetState();
 
-  addCards(ads);
-
-  var mapPin = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
   var mapCard = document.querySelectorAll('.map__card');
-
-  mapPin.forEach(function (item, i) {
-    item.addEventListener('click', function () {
-      showCard(mapCard[i]);
-    });
-
-    item.addEventListener('keydown', function (evt) {
-      if (evt.key === BUTTON.enter) {
-        showCard(mapCard[i]);
-      }
-    });
-  });
 
   Array.from(document.querySelectorAll('.popup__close')).forEach(function (item, i) {
     item.addEventListener('click', function () {
@@ -406,7 +417,7 @@ selectTimeout.addEventListener('change', function () {
 mainPin.addEventListener('mousedown', onButtonMousedown, false);
 mainPin.addEventListener('keydown', onButtonKeydown, false);
 selectRoomNumber.addEventListener('change', onSelectRoomNumberChange, false);
-selectType.addEventListener('change', onSelectRoomPriceChange, false);
+selectType.addEventListener('change', onSelectRoomPriceChange);
 
 setAddress(mainPin);
 setFieldsetState();
