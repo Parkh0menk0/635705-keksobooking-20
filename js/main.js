@@ -298,8 +298,8 @@ function onSelectRoomNumberChange() {
  */
 function onSelectRoomPriceChange() {
   if (selectType.options.length) {
-    selectPrice.min = types[selectPrice.value].min;
-    selectPrice.placeholder = types[selectPrice.value].min;
+    selectPrice.min = types[selectType.value].min;
+    selectPrice.placeholder = types[selectType.value].min;
   }
 }
 
