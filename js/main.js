@@ -284,6 +284,11 @@ function createCard(cardData) {
 
   avatar.src = cardData.author.avatar;
 
+  element.querySelector('.popup__close').addEventListener('click', function () {
+    removeCard();
+    removeActiveClass();
+  });
+
   return element;
 }
 
@@ -373,14 +378,6 @@ function showCard(pin) {
   document.addEventListener('keydown', onCardEscKeyDown);
 }
 
-/**
- * @description Закрывает модальное окно.
- * @param {Node} card DOM-узел карточки.
- */
-function hideCard(card) {
-  card.classList.add('hidden');
-}
-
 function setFieldsetState() {
   fieldsets.forEach(function (fieldset) {
     fieldset.disabled = !fieldset.disabled;
@@ -396,14 +393,6 @@ function setActiveState() {
   form.classList.remove('ad-form--disabled');
 
   setFieldsetState();
-
-  var mapCard = document.querySelectorAll('.map__card');
-
-  Array.from(document.querySelectorAll('.popup__close')).forEach(function (item, i) {
-    item.addEventListener('click', function () {
-      hideCard(mapCard[i]);
-    });
-  });
 }
 
 selectTimein.addEventListener('change', function () {
