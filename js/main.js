@@ -396,22 +396,6 @@ function setActiveState() {
   });
 }
 
-setAddress(mainPin, isActive);
-
-mainPin.addEventListener('mousedown', onButtonMousedown, false);
-
-setFieldsetState();
-
-mainPin.addEventListener('keydown', onButtonKeydown, false);
-
-selectRoomNumber.addEventListener('change', onSelectRoomNumberChange, false);
-
-onSelectRoomNumberChange();
-
-selectType.addEventListener('change', onSelectRoomPriceChange, false);
-
-onSelectRoomPriceChange();
-
 selectTimein.addEventListener('change', function () {
   selectTimeout.value = selectTimein.value;
 }, false);
@@ -419,3 +403,13 @@ selectTimein.addEventListener('change', function () {
 selectTimeout.addEventListener('change', function () {
   selectTimein.value = selectTimeout.value;
 }, false);
+
+mainPin.addEventListener('mousedown', onButtonMousedown, false);
+mainPin.addEventListener('keydown', onButtonKeydown, false);
+selectRoomNumber.addEventListener('change', onSelectRoomNumberChange, false);
+selectType.addEventListener('change', onSelectRoomPriceChange, false);
+
+setAddress(mainPin, isActive);
+setFieldsetState();
+onSelectRoomNumberChange();
+onSelectRoomPriceChange();
