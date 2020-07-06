@@ -296,7 +296,7 @@ function onSelectRoomNumberChange() {
 }
 
 /**
- * Callback-функция, устанавливает соответствия цуны и жилья.
+ * Callback-функция, устанавливает соответствия цены и жилья.
  * @callback onSelectRoomNumberChange
  * @param {Object} evt событие, которое происходит в DOM.
  */
@@ -412,9 +412,9 @@ selectType.addEventListener('change', onSelectRoomPriceChange, false);
 onSelectRoomPriceChange();
 
 selectTimein.addEventListener('change', function () {
-  selectTimeout.options.selectedIndex = selectTimein.options.selectedIndex;
+  selectTimeout.value = selectTimein.value;
 }, false);
 
 selectTimeout.addEventListener('change', function () {
-  selectTimein.options.selectedIndex = selectTimeout.options.selectedIndex;
+  selectTimein.value = selectTimeout.value;
 }, false);
