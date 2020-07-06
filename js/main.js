@@ -222,7 +222,7 @@ function createCard(cardData) {
   element.querySelector('.popup__title').textContent = cardData.offer.title;
   element.querySelector('.popup__text--address').textContent = cardData.offer.address;
   element.querySelector('.popup__text--price').textContent = cardData.offer.price + ' ₽/ночь';
-  element.querySelector('.popup__type').textContent = cardData.offer.type;
+  element.querySelector('.popup__type').textContent = types[cardData.offer.type].ru;
   element.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
   element.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
 
