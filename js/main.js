@@ -1,5 +1,10 @@
 'use strict';
 
+var BUTTON = {
+  enter: 'Enter',
+  esc: 'Escape'
+};
+
 var ADS_COUNT = 8;
 
 var TITLE = [
@@ -263,7 +268,7 @@ function onButtonMousedown(evt) {
  * @param {Object} evt событие, которое происходит в DOM.
  */
 function onButtonKeydown(evt) {
-  if (evt.key === 'Enter') {
+  if (evt.key === BUTTON.enter) {
     setActiveState();
   }
   mainPin.removeEventListener('keydown', onButtonKeydown, false);
@@ -331,7 +336,7 @@ function addCards(list) {
 function showCard(node) {
   node.classList.remove('hidden');
   document.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Escape') {
+    if (evt.key === BUTTON.esc) {
       evt.preventDefault();
       node.classList.add('hidden');
     }
@@ -378,7 +383,7 @@ function setActiveState() {
     });
 
     item.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Enter') {
+      if (evt.key === BUTTON.enter) {
         showCard(mapCard[i]);
       }
     });
