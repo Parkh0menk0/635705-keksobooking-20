@@ -92,7 +92,13 @@ var mainPin = map.querySelector('.map__pin--main');
 var fieldsets = document.querySelectorAll('.ad-form__element');
 var form = document.querySelector('.ad-form');
 var address = form.querySelector('input[name=address]');
-var isActive = false;
+
+/**
+ * @description Проверяет активна ли страница.
+ */
+function checkMapState() {
+  map.classList.contains('map--faded');
+}
 
 /**
  * @description Генерирует случайные данные.
@@ -257,7 +263,7 @@ function fillMarks(fragment) {
 function onButtonMousedown(evt) {
   if (evt.button === 0) {
     setActiveState();
-    setAddress(mainPin, isActive);
+    setAddress(mainPin);
   }
   mainPin.removeEventListener('mousedown', onButtonMousedown, false);
 }
@@ -306,15 +312,10 @@ function onSelectRoomPriceChange() {
 /**
  * @description Устанавливает значения поля ввода адреса.
  * @param {Object} pin Объект метки.
- * @param {boolean} state Флаг, указывающий6 активна ли страница.
  */
-function setAddress(pin, state) {
+function setAddress(pin) {
   address.style.cursor = 'not-allowed';
-  if (state) {
-    address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2));
-  } else {
-    address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
-  }
+  address.value = checkMapState() ? (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2)) : (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
 }
 
 /**
@@ -370,8 +371,6 @@ function setActiveState() {
 
   setFieldsetState();
 
-  isActive = true;
-
   addCards(ads);
 
   var mapPin = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
@@ -409,7 +408,7 @@ mainPin.addEventListener('keydown', onButtonKeydown, false);
 selectRoomNumber.addEventListener('change', onSelectRoomNumberChange, false);
 selectType.addEventListener('change', onSelectRoomPriceChange, false);
 
-setAddress(mainPin, isActive);
+setAddress(mainPin);
 setFieldsetState();
 onSelectRoomNumberChange();
 onSelectRoomPriceChange();
