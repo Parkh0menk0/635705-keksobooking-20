@@ -83,7 +83,7 @@ var selectTimeout = document.querySelector('#timeout');
 
 var map = document.querySelector('.map');
 var filtersContainer = map.querySelector('.map__filters-container');
-var mainPin = document.querySelector('.map__pin--main');
+var mainPin = map.querySelector('.map__pin--main');
 var fieldsets = document.querySelectorAll('.ad-form__element');
 var form = document.querySelector('.ad-form');
 var address = form.querySelector('input[name=address]');
@@ -356,6 +356,15 @@ function hideCard(card) {
 }
 
 /**
+ * @description Задаёт активное состояние для не активных fieldset в форме и наоборот.
+ */
+function setFieldsetState() {
+  fieldsets.forEach(function (fieldset) {
+    fieldset.disabled = !fieldset.disabled;
+  });
+}
+
+/**
  * @description Переводит страницу в активное состояние.
  */
 function setActiveState() {
@@ -363,9 +372,7 @@ function setActiveState() {
   fillMarks(createMarks(ads));
   form.classList.remove('ad-form--disabled');
 
-  fieldsets.forEach(function (fieldset) {
-    fieldset.disabled = false;
-  });
+  setFieldsetState();
 
   isActive = true;
 
@@ -397,9 +404,7 @@ setAddress(mainPin, isActive);
 
 mainPin.addEventListener('mousedown', onButtonMousedown, false);
 
-fieldsets.forEach(function (fieldset) {
-  fieldset.disabled = true;
-});
+setFieldsetState();
 
 mainPin.addEventListener('keydown', onButtonKeydown, false);
 
