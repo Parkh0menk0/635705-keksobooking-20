@@ -38,60 +38,62 @@
     }
   };
 
-  window.form = {
+  /**
+   * Callback-функция, устанавливает соответствия количества гостей (спальных мест) с количеством комнат.
+   * @callback onSelectRoomNumberChange
+   */
+  var onSelectRoomNumberChange = function () {
+    if (selectCapacity.options.length) {
+      Array.from(selectCapacity.options).forEach(function (item) {
+        var value = ROOMS_CAPACITY[selectRoomNumber.value];
+        var isHidden = !(value.indexOf(item.value) >= 0);
 
+        item.hidden = isHidden;
+        item.disabled = isHidden;
+        item.selected = value[0] === item.value;
+      });
+    }
+  };
+
+  /**
+   * Callback-функция, устанавливает соответствия цены и жилья.
+   * @callback onSelectRoomPriceChange
+   */
+  var onSelectRoomPriceChange = function () {
+    if (selectType.options.length) {
+      selectPrice.min = types[selectType.value].min;
+      selectPrice.placeholder = types[selectType.value].min;
+    }
+  };
+
+  /**
+   * @description Устанавливает значения поля ввода адреса.
+   * @param {Object} pin Объект метки.
+   * @param {boolean} state Флаг, указывающий6 активна ли страница.
+   */
+  var setAddress = function (pin) {
+    address.style.cursor = 'not-allowed';
+    address.value = window.map.checkMapState() ? (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2)) : address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
+  };
+
+  /**
+   * @description Задаёт состояние полям формы.
+   */
+  var setFieldsetState = function () {
+    fieldsets.forEach(function (fieldset) {
+      fieldset.disabled = !fieldset.disabled;
+    });
+  };
+
+  window.form = {
     form: form,
     selectType: selectType,
     selectRoomNumber: selectRoomNumber,
     types: types,
-
-    /**
-     * Callback-функция, устанавливает соответствия количества гостей (спальных мест) с количеством комнат.
-     * @callback onSelectRoomNumberChange
-     */
-    onSelectRoomNumberChange: function () {
-      if (selectCapacity.options.length) {
-        Array.from(selectCapacity.options).forEach(function (item) {
-          var value = ROOMS_CAPACITY[selectRoomNumber.value];
-          var isHidden = !(value.indexOf(item.value) >= 0);
-
-          item.hidden = isHidden;
-          item.disabled = isHidden;
-          item.selected = value[0] === item.value;
-        });
-      }
-    },
-
-    /**
-     * Callback-функция, устанавливает соответствия цены и жилья.
-     * @callback onSelectRoomPriceChange
-     */
-    onSelectRoomPriceChange: function () {
-      if (selectType.options.length) {
-        selectPrice.min = types[selectType.value].min;
-        selectPrice.placeholder = types[selectType.value].min;
-      }
-    },
-
-    /**
-     * @description Устанавливает значения поля ввода адреса.
-     * @param {Object} pin Объект метки.
-     * @param {boolean} state Флаг, указывающий6 активна ли страница.
-     */
-    setAddress: function (pin) {
-      address.style.cursor = 'not-allowed';
-      address.value = window.map.checkMapState() ? (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2)) : address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
-    },
-
-    /**
-     * @description Задаёт состояние полям формы.
-     */
-    setFieldsetState: function () {
-      fieldsets.forEach(function (fieldset) {
-        fieldset.disabled = !fieldset.disabled;
-      });
-    }
-
+    onSelectRoomNumberChange: onSelectRoomNumberChange,
+    onSelectRoomPriceChange: onSelectRoomPriceChange,
+    setAddress: setAddress,
+    setFieldsetState: setFieldsetState
   };
 
   selectTimein.addEventListener('change', function () {

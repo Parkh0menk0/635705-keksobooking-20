@@ -57,104 +57,109 @@
    * @callback onCardEscKeyDown
    * @param {Object} evt событие, которое происходит в DOM.
    */
-  function onCardEscKeyDown(evt) {
+  var onCardEscKeyDown = function (evt) {
     if (evt.key === BUTTON.esc) {
       evt.preventDefault();
       window.map.removeCard();
       window.card.removeActiveClass();
       document.removeEventListener('keydown', onCardEscKeyDown);
     }
-  }
+  };
 
   /**
    * @description Переводит страницу в активное состояние.
    */
-  function setActiveState() {
+  var setActiveState = function () {
     window.map.map.classList.remove('map--faded');
     window.map.createMarks();
     window.form.form.classList.remove('ad-form--disabled');
 
     window.form.setFieldsetState();
-  }
+  };
+
+  /**
+   * @description Проверяет активна ли страница.
+   * @return {boolean} Активна или нет страница.
+   */
+  var checkMapState = function () {
+    return map.classList.contains('map--faded');
+  };
+
+  /**
+   * @description Удаляет карточку.
+   */
+  var removeCard = function () {
+    var popup = window.map.map.querySelector('.popup');
+
+    if (popup) {
+      popup.remove();
+    }
+  };
+
+  /**
+   * @description Создаёт DOM-элементы отметок на карте на основе JS-объекта.
+   * @param {Object[]} generated Сгенерированный массив объявлений.
+   */
+  var createMarks = function () {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < ads.length; i++) {
+      fragment.appendChild(window.pin.createMark(ads[i]));
+    }
+
+    var list = document.querySelector('.map__pins');
+
+    list.appendChild(fragment);
+  };
+
+  /**
+   * @description Отрисовывает карточку объявления.
+   * @param {Node} pin DOM-узел объявлений.
+   */
+  var showCard = function (pin) {
+    var fragment = document.createDocumentFragment();
+
+    fragment.appendChild(window.card.createCard(pin));
+
+    window.map.map.insertBefore(fragment, filtersContainer);
+
+    document.addEventListener('keydown', onCardEscKeyDown);
+  };
+
+  /**
+   * Callback-функция, для активации страницы клавишей Enter.
+   * @callback onButtonMousedown
+   * @param {Object} evt событие, которое происходит в DOM.
+   */
+  var onButtonKeydown = function (evt) {
+    if (evt.key === BUTTON.enter) {
+      setActiveState();
+    }
+    window.drag.mainPin.removeEventListener('keydown', window.map.onButtonKeydown, false);
+  };
+
+  /**
+   * Callback-функция, для активации страницы левой кнопкой мыши.
+   * @callback onButtonMousedown
+   * @param {Object} evt событие, которое происходит в DOM.
+   */
+  var onButtonMousedown = function (evt) {
+    if (evt.button === 0) {
+      setActiveState();
+      window.form.setAddress(window.drag.mainPin);
+    }
+    window.drag.mainPin.removeEventListener('mousedown', window.map.onButtonMousedown, false);
+  };
 
   window.map = {
 
     map: map,
-
-    /**
-     * @description Проверяет активна ли страница.
-     * @return {boolean} Активна или нет страница.
-     */
-    checkMapState: function () {
-      return map.classList.contains('map--faded');
-    },
-
-    /**
-     * @description Удаляет карточку.
-     */
-    removeCard: function () {
-      var popup = window.map.map.querySelector('.popup');
-
-      if (popup) {
-        popup.remove();
-      }
-    },
-
-    /**
-     * @description Создаёт DOM-элементы отметок на карте на основе JS-объекта.
-     * @param {Object[]} generated Сгенерированный массив объявлений.
-     */
-    createMarks: function () {
-      var fragment = document.createDocumentFragment();
-
-      for (var i = 0; i < ads.length; i++) {
-        fragment.appendChild(window.pin.createMark(ads[i]));
-      }
-
-      var list = document.querySelector('.map__pins');
-
-      list.appendChild(fragment);
-    },
-
-    /**
-     * @description Отрисовывает карточку объявления.
-     * @param {Node} pin DOM-узел объявлений.
-     */
-    showCard: function (pin) {
-      var fragment = document.createDocumentFragment();
-
-      fragment.appendChild(window.card.createCard(pin));
-
-      window.map.map.insertBefore(fragment, filtersContainer);
-
-      document.addEventListener('keydown', onCardEscKeyDown);
-    },
-
-    /**
-     * Callback-функция, для активации страницы клавишей Enter.
-     * @callback onButtonMousedown
-     * @param {Object} evt событие, которое происходит в DOM.
-     */
-    onButtonKeydown: function (evt) {
-      if (evt.key === BUTTON.enter) {
-        setActiveState();
-      }
-      window.drag.mainPin.removeEventListener('keydown', window.map.onButtonKeydown, false);
-    },
-
-    /**
-     * Callback-функция, для активации страницы левой кнопкой мыши.
-     * @callback onButtonMousedown
-     * @param {Object} evt событие, которое происходит в DOM.
-     */
-    onButtonMousedown: function (evt) {
-      if (evt.button === 0) {
-        setActiveState();
-        window.form.setAddress(window.drag.mainPin);
-      }
-      window.drag.mainPin.removeEventListener('mousedown', window.map.onButtonMousedown, false);
-    }
-
+    checkMapState: checkMapState,
+    removeCard: removeCard,
+    createMarks: createMarks,
+    showCard: showCard,
+    onButtonKeydown: onButtonKeydown,
+    onButtonMousedown: onButtonMousedown
   };
 
 })();
