@@ -25,7 +25,7 @@
    * @description Удаляет активный класс карточки.
    */
   var removeActiveClass = function () {
-    var active = window.map.map.querySelector('.map__pin--active');
+    var active = document.querySelector('.map__pin--active');
 
     if (active) {
       active.classList.remove('map__pin--active');
@@ -66,7 +66,7 @@
 
     element.querySelector('.popup__close').addEventListener('click', function () {
       window.map.removeCard();
-      window.card.removeActiveClass();
+      removeActiveClass();
     });
 
     return element;

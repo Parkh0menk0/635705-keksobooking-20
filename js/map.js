@@ -60,7 +60,7 @@
   var onCardEscKeyDown = function (evt) {
     if (evt.key === BUTTON.esc) {
       evt.preventDefault();
-      window.map.removeCard();
+      removeCard();
       window.card.removeActiveClass();
       document.removeEventListener('keydown', onCardEscKeyDown);
     }
@@ -70,8 +70,8 @@
    * @description Переводит страницу в активное состояние.
    */
   var setActiveState = function () {
-    window.map.map.classList.remove('map--faded');
-    window.map.createMarks();
+    map.classList.remove('map--faded');
+    createMarks();
     window.form.form.classList.remove('ad-form--disabled');
 
     window.form.setFieldsetState();
@@ -89,7 +89,7 @@
    * @description Удаляет карточку.
    */
   var removeCard = function () {
-    var popup = window.map.map.querySelector('.popup');
+    var popup = document.querySelector('.popup');
 
     if (popup) {
       popup.remove();
@@ -121,7 +121,7 @@
 
     fragment.appendChild(window.card.createCard(pin));
 
-    window.map.map.insertBefore(fragment, filtersContainer);
+    map.insertBefore(fragment, filtersContainer);
 
     document.addEventListener('keydown', onCardEscKeyDown);
   };
@@ -135,7 +135,7 @@
     if (evt.key === BUTTON.enter) {
       setActiveState();
     }
-    window.drag.mainPin.removeEventListener('keydown', window.map.onButtonKeydown, false);
+    window.drag.mainPin.removeEventListener('keydown', onButtonKeydown, false);
   };
 
   /**
@@ -148,7 +148,7 @@
       setActiveState();
       window.form.setAddress(window.drag.mainPin);
     }
-    window.drag.mainPin.removeEventListener('mousedown', window.map.onButtonMousedown, false);
+    window.drag.mainPin.removeEventListener('mousedown', onButtonMousedown, false);
   };
 
   window.map = {
