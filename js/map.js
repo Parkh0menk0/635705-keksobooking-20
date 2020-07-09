@@ -49,7 +49,6 @@
   ];
 
   var map = document.querySelector('.map');
-  var mainPin = document.querySelector('.map__pin--main');
   var filtersContainer = document.querySelector('.map__filters-container');
   var ads = window.data.createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS);
 
@@ -81,7 +80,6 @@
   window.map = {
 
     map: map,
-    mainPin: mainPin,
 
     /**
      * @description Проверяет активна ли страница.
@@ -141,7 +139,7 @@
       if (evt.key === BUTTON.enter) {
         setActiveState();
       }
-      mainPin.removeEventListener('keydown', window.map.onButtonKeydown, false);
+      window.drag.mainPin.removeEventListener('keydown', window.map.onButtonKeydown, false);
     },
 
     /**
@@ -152,9 +150,9 @@
     onButtonMousedown: function (evt) {
       if (evt.button === 0) {
         setActiveState();
-        window.form.setAddress(window.map.mainPin);
+        window.form.setAddress(window.drag.mainPin);
       }
-      window.map.mainPin.removeEventListener('mousedown', window.map.onButtonMousedown, false);
+      window.drag.mainPin.removeEventListener('mousedown', window.map.onButtonMousedown, false);
     }
 
   };
