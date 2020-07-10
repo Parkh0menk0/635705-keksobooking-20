@@ -67,6 +67,8 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
+      window.form.setAddress(window.drag.mainPin);
+
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
