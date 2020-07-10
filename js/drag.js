@@ -2,6 +2,13 @@
 
 (function () {
 
+  var border = {
+    top: 130,
+    right: 1135,
+    bottom: 630,
+    left: 0
+  };
+
   var mainPin = document.querySelector('.map__pin--main');
 
   window.drag = {
@@ -33,20 +40,20 @@
         y: moveEvt.clientY
       };
 
-      if (mainPin.offsetTop - shift.y < 130) {
-        mainPin.style.top = 130 + 'px';
+      if (mainPin.offsetTop - shift.y < border.top) {
+        mainPin.style.top = border.top + 'px';
       }
 
-      if (mainPin.offsetTop - shift.y > 630) {
-        mainPin.style.top = 630 + 'px';
+      if (mainPin.offsetTop - shift.y > border.bottom) {
+        mainPin.style.top = border.bottom + 'px';
       }
 
-      if (mainPin.offsetLeft - shift.x < 0) {
-        mainPin.style.left = 0 + 'px';
+      if (mainPin.offsetLeft - shift.x < border.left) {
+        mainPin.style.left = border.left + 'px';
       }
 
-      if (mainPin.offsetLeft - shift.x > 1135) {
-        mainPin.style.left = 1135 + 'px';
+      if (mainPin.offsetLeft - shift.x > border.right) {
+        mainPin.style.left = border.right + 'px';
       }
 
       mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
