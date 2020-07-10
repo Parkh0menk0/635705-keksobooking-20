@@ -35,7 +35,7 @@
   };
 
   window.pin = {
-    createMark: createMark
+    create: createMark
   };
 
 })();

@@ -75,7 +75,7 @@
   window.card = {
 
     removeActiveClass: removeActiveClass,
-    createCard: createCard
+    create: createCard
 
   };
 

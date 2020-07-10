@@ -70,7 +70,7 @@
   };
 
   window.data = {
-    createAds: createAds
+    create: createAds
   };
 
 })();

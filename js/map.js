@@ -50,7 +50,7 @@
 
   var map = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
-  var ads = window.data.createAds(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS);
+  var ads = window.data.create(ADS_COUNT, TITLE, TYPE, TIME, FEATURES, PHOTOS);
 
   /**
    * Callback-функция, нажатия клавиши ESC.
@@ -104,7 +104,7 @@
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < ads.length; i++) {
-      fragment.appendChild(window.pin.createMark(ads[i]));
+      fragment.appendChild(window.pin.create(ads[i]));
     }
 
     var list = document.querySelector('.map__pins');
@@ -119,7 +119,7 @@
   var showCard = function (pin) {
     var fragment = document.createDocumentFragment();
 
-    fragment.appendChild(window.card.createCard(pin));
+    fragment.appendChild(window.card.create(pin));
 
     map.insertBefore(fragment, filtersContainer);
 
@@ -153,7 +153,6 @@
 
   window.map = {
 
-    map: map,
     checkMapState: checkMapState,
     removeCard: removeCard,
     createMarks: createMarks,
