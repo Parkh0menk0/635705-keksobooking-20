@@ -85,6 +85,18 @@
     });
   };
 
+  /**
+   * @description Обработчик успешной загрузки формы.
+   * @param {Object} evt Событие DOM.
+   */
+  var submitHandler = function (evt) {
+    window.backend.save(new FormData(form), function () {
+      form.classList.add('ad-form--disabled');
+      form.reset();
+    });
+    evt.preventDefault();
+  };
+
   window.form = {
     form: form,
     selectType: selectType,
@@ -103,5 +115,7 @@
   selectTimeout.addEventListener('change', function () {
     selectTimein.value = selectTimeout.value;
   }, false);
+
+  form.addEventListener('submit', submitHandler);
 
 })();

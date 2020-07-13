@@ -4,7 +4,7 @@
 
   var URL = {
     load: 'https://javascript.pages.academy/keksobooking/data',
-    save: 'https://javascript.pages.academy/keksobooking'
+    send: 'https://javascript.pages.academy/keksobooking'
   };
 
   var statusCode = {
