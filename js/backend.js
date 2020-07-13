@@ -3,7 +3,8 @@
 (function () {
 
   var URL = {
-    load: 'https://javascript.pages.academy/keksobooking/data'
+    load: 'https://javascript.pages.academy/keksobooking/data',
+    save: 'https://javascript.pages.academy/keksobooking'
   };
 
   var statusCode = {
@@ -61,11 +62,10 @@
     return xhr;
   };
 
-
   /**
    * @description Получает с сервера данные с помощью объекта XMLHttpRequest, обрабатывает полученные запросы и передаёт полученную информацию в функцию обратного вызова.
-   * @param {callback} onLoad Функция обратного вызова, которая срабатывает при успешном выполнении запроса.
-   * @param {callback} onError Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   * @param {requestCallback} onLoad Функция обратного вызова, которая срабатывает при успешном выполнении запроса.
+   * @param {requestCallback} onError Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
    */
   var load = function (onLoad, onError) {
     var xhr = createXHR(onLoad, onError);
@@ -73,8 +73,21 @@
     xhr.send();
   };
 
+  /**
+   * @description Отправляет данные на сервер, если ошибок не произошло.
+   * @param {Object} data Объект FormData, который содержит данные формы, которые будут отправлены на сервер.
+   * @param {requestCallback} onLoad Функция обратного вызова, которая срабатывает при успешном выполнении запроса.
+   * @param {requestCallback} onError Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   */
+  var save = function (data, onLoad, onError) {
+    var xhr = createXHR(onLoad, onError);
+    xhr.open('POST', URL.send);
+    xhr.send(data);
+  };
+
   window.backend = {
-    load: load
+    load: load,
+    save: save
   };
 
 })();
