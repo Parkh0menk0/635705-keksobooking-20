@@ -14,13 +14,13 @@
   };
 
   var TIMEOUT_IN_MS = 10000;
-
   /**
-   * @description Получает с сервера данные с помощью объекта XMLHttpRequest, обрабатывает полученные запросы и передаёт полученную информацию в функцию обратного вызова.
-   * @param {callback} onLoad Функция обратного вызова, которая срабатывает при успешном выполнении запроса.
-   * @param {callback} onError Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   * @description Cоздаёт объект XMLHttpReques.
+   * @param {requestCallback} onLoad Функция обратного вызова, которая срабатывает при успешном выполнении запроса.
+   * @param {requestCallback} onError Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   * @return {Object} объект XMLHttpRequest.
    */
-  var load = function (onLoad, onError) {
+  var createXHR = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -58,6 +58,17 @@
 
     xhr.timeout = TIMEOUT_IN_MS;
 
+    return xhr;
+  };
+
+
+  /**
+   * @description Получает с сервера данные с помощью объекта XMLHttpRequest, обрабатывает полученные запросы и передаёт полученную информацию в функцию обратного вызова.
+   * @param {callback} onLoad Функция обратного вызова, которая срабатывает при успешном выполнении запроса.
+   * @param {callback} onError Функция обратного вызова, которая срабатывает при неуспешном выполнении запроса.
+   */
+  var load = function (onLoad, onError) {
+    var xhr = createXHR(onLoad, onError);
     xhr.open('GET', URL.load);
     xhr.send();
   };
