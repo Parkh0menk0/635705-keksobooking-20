@@ -2,11 +2,6 @@
 
 (function () {
 
-  var BUTTON = {
-    enter: 'Enter',
-    esc: 'Escape'
-  };
-
   var map = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
 
@@ -16,7 +11,7 @@
    * @param {Object} evt событие, которое происходит в DOM.
    */
   var onCardEscKeyDown = function (evt) {
-    if (evt.key === BUTTON.esc) {
+    if (evt.key === window.util.ESC) {
       evt.preventDefault();
       removeCard();
       window.card.removeActiveClass();
@@ -107,7 +102,7 @@
    * @param {Object} evt событие, которое происходит в DOM.
    */
   var onButtonKeydown = function (evt) {
-    if (evt.key === BUTTON.enter) {
+    if (evt.key === window.util.ENTER) {
       setActiveState();
     }
     window.drag.mainPin.removeEventListener('keydown', onButtonKeydown, false);
