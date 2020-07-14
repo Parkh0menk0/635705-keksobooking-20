@@ -11,6 +11,7 @@
   var address = form.querySelector('input[name=address]');
   var selectTimein = form.querySelector('#timein');
   var selectTimeout = form.querySelector('#timeout');
+  var formReset = form.querySelector('.ad-form__reset');
 
   var ROOMS_CAPACITY = {
     '1': ['1'],
@@ -85,16 +86,39 @@
     });
   };
 
+  var onPopupEscPress = function (evt) {
+    if (evt.key === window.util.ESC) {
+      closePopup();
+    }
+  };
+
   /**
-   * @description Обработчик успешной загрузки формы.
+   * Функция закрытия окна формы редактирования изображения.
+   * @function
+   */
+  var closePopup = function () {
+    form.reset();
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  var onSuccess = function () {
+    closePopup();
+    window.map.removeActiveState();
+    window.report.openSuccess();
+  };
+
+  var onError = function () {
+    closePopup();
+    window.report.openError();
+  };
+
+  /**
+   * @description Обработчик загрузки формы.
    * @param {Object} evt Событие DOM.
    */
   var submitHandler = function (evt) {
-    window.backend.save(new FormData(form), function () {
-      form.classList.add('ad-form--disabled');
-      form.reset();
-    });
     evt.preventDefault();
+    window.backend.save(new FormData(form), onSuccess, onError);
   };
 
   window.form = {
@@ -117,5 +141,10 @@
   }, false);
 
   form.addEventListener('submit', submitHandler);
+
+  formReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    form.reset();
+  });
 
 })();

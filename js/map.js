@@ -3,6 +3,7 @@
 (function () {
 
   var map = document.querySelector('.map');
+  var list = document.querySelector('.map__pins');
   var filtersContainer = document.querySelector('.map__filters-container');
 
   /**
@@ -29,8 +30,6 @@
     for (var i = 0; i < ads.length; i++) {
       fragment.appendChild(window.pin.create(ads[i]));
     }
-
-    var list = document.querySelector('.map__pins');
 
     list.appendChild(fragment);
   };
@@ -60,6 +59,26 @@
     window.backend.load(successHandler, errorHandler);
     window.form.form.classList.remove('ad-form--disabled');
 
+    window.form.setFieldsetState();
+  };
+
+  /**
+   * @description Переводит страницу в неактивное состояние.
+   */
+  var removeActiveState = function () {
+    var pins = list.getElementsByClassName('map__pin');
+
+    while (pins.length !== 1) {
+      for (var i = 0; i < pins.length; i++) {
+        if (pins[i].classList.contains('map__pin--main')) {
+          continue;
+        }
+        pins[i].parentNode.removeChild(pins[i]);
+      }
+    }
+
+    map.classList.add('map--faded');
+    window.form.form.classList.add('ad-form--disabled');
     window.form.setFieldsetState();
   };
 
@@ -122,11 +141,13 @@
   };
 
   window.map = {
+    map: map,
     checkMapState: checkMapState,
     removeCard: removeCard,
     showCard: showCard,
     onButtonKeydown: onButtonKeydown,
-    onButtonMousedown: onButtonMousedown
+    onButtonMousedown: onButtonMousedown,
+    removeActiveState: removeActiveState
   };
 
 })();
