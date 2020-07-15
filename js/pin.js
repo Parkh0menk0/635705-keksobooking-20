@@ -2,10 +2,12 @@
 
 (function () {
 
-  var OFFSET = {
-    x: 25,
-    y: 70
+  var Offset = {
+    X: 25,
+    Y: 70
   };
+
+  var list = document.querySelector('.map__pins');
 
   /**
    * @description Создаёт DOM-элемент отметки на карте на основе JS-объекта.
@@ -16,8 +18,8 @@
     var template = document.querySelector('#pin').content.querySelector('button');
     var element = template.cloneNode(true);
     var avatar = element.querySelector('.map__pin img');
-    element.style.left = pin.location.x - OFFSET.x + 'px';
-    element.style.top = pin.location.y - OFFSET.y + 'px';
+    element.style.left = pin.location.x - Offset.X + 'px';
+    element.style.top = pin.location.y - Offset.Y + 'px';
     avatar.src = pin.author.avatar;
     avatar.alt = pin.offer.title;
 
@@ -34,8 +36,36 @@
     return element;
   };
 
+  /**
+   * @description Добавляет DOM-элементы отметкок на карте настраницу.
+   * @param {Object[]} ads Массив объектов.
+   */
+  var renderPins = function (ads) {
+    var fragment = document.createDocumentFragment();
+
+    ads.forEach(function (pin) {
+      fragment.appendChild(createMark(pin));
+    });
+
+    list.appendChild(fragment);
+  };
+
+  /**
+   * @description Удаляет DOM-элементы отметкок на карте настраницу.
+   */
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    if (pins) {
+      pins.forEach(function (item) {
+        item.remove();
+      });
+    }
+  };
+
   window.pin = {
-    create: createMark
+    render: renderPins,
+    remove: removePins
   };
 
 })();
