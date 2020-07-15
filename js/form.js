@@ -86,6 +86,10 @@
     });
   };
 
+  /**
+   * @description Обработчик нажатия по клавише esc.
+   * @param {Object} evt Событие DOM.
+   */
   var onPopupEscPress = function (evt) {
     if (evt.key === window.util.ESC) {
       closePopup();
@@ -97,19 +101,34 @@
    * @function
    */
   var closePopup = function () {
-    form.reset();
+    onFormReset();
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
+  /**
+   * @description Обработчик успешной загрузки формы.
+   */
   var onSuccess = function () {
     closePopup();
     window.map.removeActiveState();
     window.report.openSuccess();
   };
 
+  /**
+   * @description Обработчик ошибки загрузки формы.
+   */
   var onError = function () {
-    closePopup();
     window.report.openError();
+  };
+
+  /**
+   * @description Обработчик сброса формы.
+   */
+  var onFormReset = function () {
+    form.reset();
+    setAddress(window.drag.mainPin);
+    onSelectRoomNumberChange();
+    window.drag.startPosition();
   };
 
   /**
@@ -119,17 +138,6 @@
   var submitHandler = function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), onSuccess, onError);
-  };
-
-  window.form = {
-    form: form,
-    selectType: selectType,
-    selectRoomNumber: selectRoomNumber,
-    types: types,
-    onSelectRoomNumberChange: onSelectRoomNumberChange,
-    onSelectRoomPriceChange: onSelectRoomPriceChange,
-    setAddress: setAddress,
-    setFieldsetState: setFieldsetState
   };
 
   selectTimein.addEventListener('change', function () {
@@ -144,7 +152,18 @@
 
   formReset.addEventListener('click', function (evt) {
     evt.preventDefault();
-    form.reset();
+    onFormReset();
   });
+
+  window.form = {
+    form: form,
+    selectType: selectType,
+    selectRoomNumber: selectRoomNumber,
+    types: types,
+    onSelectRoomNumberChange: onSelectRoomNumberChange,
+    onSelectRoomPriceChange: onSelectRoomPriceChange,
+    setAddress: setAddress,
+    setFieldsetState: setFieldsetState
+  };
 
 })();
