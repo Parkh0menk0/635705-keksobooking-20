@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-
+  var MAX_COUNT = 5;
   var map = document.querySelector('.map');
-  var list = document.querySelector('.map__pins');
   var filtersContainer = document.querySelector('.map__filters-container');
+  var offers = [];
 
   /**
    * Callback-функция, нажатия клавиши ESC.
@@ -25,13 +25,9 @@
    * @param {Object[]} ads Массив объявлений.
    */
   var successHandler = function (ads) {
-    var fragment = document.createDocumentFragment();
+    offers = ads.slice();
 
-    for (var i = 0; i < ads.length; i++) {
-      fragment.appendChild(window.pin.create(ads[i]));
-    }
-
-    list.appendChild(fragment);
+    window.pin.render(offers.slice(0, MAX_COUNT));
   };
 
   /**
@@ -62,24 +58,17 @@
     window.form.setFieldsetState();
   };
 
+
   /**
    * @description Переводит страницу в неактивное состояние.
    */
   var removeActiveState = function () {
-    var pins = list.getElementsByClassName('map__pin');
-
-    while (pins.length !== 1) {
-      for (var i = 0; i < pins.length; i++) {
-        if (pins[i].classList.contains('map__pin--main')) {
-          continue;
-        }
-        pins[i].parentNode.removeChild(pins[i]);
-      }
-    }
+    window.pin.remove();
 
     map.classList.add('map--faded');
     window.form.form.classList.add('ad-form--disabled');
     window.form.setFieldsetState();
+    window.drag.mainPin.addEventListener('mousedown', onButtonMousedown, false);
   };
 
   /**
@@ -123,8 +112,8 @@
   var onButtonKeydown = function (evt) {
     if (evt.key === window.util.ENTER) {
       setActiveState();
+      window.drag.mainPin.removeEventListener('keydown', onButtonKeydown, false);
     }
-    window.drag.mainPin.removeEventListener('keydown', onButtonKeydown, false);
   };
 
   /**
@@ -136,12 +125,11 @@
     if (evt.button === 0) {
       setActiveState();
       window.form.setAddress(window.drag.mainPin);
+      window.drag.mainPin.removeEventListener('mousedown', onButtonMousedown, false);
     }
-    window.drag.mainPin.removeEventListener('mousedown', onButtonMousedown, false);
   };
 
   window.map = {
-    map: map,
     checkMapState: checkMapState,
     removeCard: removeCard,
     showCard: showCard,
