@@ -9,7 +9,20 @@
     LEFT: 0
   };
 
+  var Start = {
+    X: '375px',
+    Y: '570px'
+  };
+
   var mainPin = document.querySelector('.map__pin--main');
+
+  /**
+   * @description Получает начальные координаты главного пина.
+   */
+  var getStartPosition = function () {
+    mainPin.style.top = Start.X;
+    mainPin.style.left = Start.Y;
+  };
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -75,6 +88,7 @@
 
   window.drag = {
     mainPin: mainPin,
+    startPosition: getStartPosition
   };
 
 })();
