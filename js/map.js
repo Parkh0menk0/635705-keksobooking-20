@@ -135,7 +135,8 @@
     showCard: showCard,
     onButtonKeydown: onButtonKeydown,
     onButtonMousedown: onButtonMousedown,
-    removeActiveState: removeActiveState
+    removeActiveState: removeActiveState,
+    errorHandler: errorHandler
   };
 
 })();

@@ -18,14 +18,20 @@
     });
   };
 
-  var onSuccessAnotherClick = function () {
-    successClose();
-  };
-
-  var onErrorAnotherClick = function (evt) {
-    var errorButton = document.querySelector('main').querySelector('.error__button');
-    if (evt.target !== errorButton) {
-      errorClose();
+  /**
+   * @description Закрывает сообщение по клику на произвольную область экрана.
+   * @param {Object} evt Событие DOM.
+   */
+  var onAnywhereClick = function (evt) {
+    switch (evt.target) {
+      case (document.querySelector('main').querySelector('.error')):
+        errorClose();
+        break;
+      case (document.querySelector('main').querySelector('.success')):
+        successClose();
+        break;
+      default:
+        throw new Error('Неизвестное оповещение: «' + evt.target + '»');
     }
   };
 
@@ -33,7 +39,7 @@
    * @description Закрывает сообщение успешной загрузки формы.
    */
   var successClose = function () {
-    document.removeEventListener('click', onSuccessAnotherClick);
+    document.removeEventListener('click', onAnywhereClick);
     document.removeEventListener('keydown', onSuccessEscPress);
     document.querySelector('main').removeChild(document.querySelector('main .success'));
   };
@@ -42,7 +48,7 @@
    * @description Закрывает сообщение ошибки загрузки формы.
    */
   var errorClose = function () {
-    document.removeEventListener('click', onErrorAnotherClick);
+    document.removeEventListener('click', onAnywhereClick);
     document.removeEventListener('keydown', onErrorEscPress);
     document.querySelector('main').removeChild(document.querySelector('main .error'));
   };
@@ -56,8 +62,11 @@
   var openSuccess = function () {
     var message = templateSuccess.cloneNode(true);
     document.querySelector('main').appendChild(message);
-
-    document.addEventListener('click', onSuccessAnotherClick);
+    try {
+      document.addEventListener('click', onAnywhereClick);
+    } catch (e) {
+      window.map.errorHandler('Error: ' + e.message + ' ' + e.stack);
+    }
     document.addEventListener('keydown', onSuccessEscPress);
   };
 
@@ -68,13 +77,11 @@
   var openError = function () {
     var message = templateError.cloneNode(true);
     document.querySelector('main').appendChild(message);
-    var button = message.querySelector('.error__button');
-
-    button.addEventListener('click', function () {
-      errorClose();
-    });
-
-    document.addEventListener('click', onErrorAnotherClick);
+    try {
+      document.addEventListener('click', onAnywhereClick);
+    } catch (e) {
+      window.map.errorHandler('Error: ' + e.message + ' ' + e.stack);
+    }
     document.addEventListener('keydown', onErrorEscPress);
   };
 
