@@ -7,11 +7,11 @@
     send: 'https://javascript.pages.academy/keksobooking'
   };
 
-  var statusCode = {
+  var StatusCode = {
     OK: 200,
-    BadRequest: 400,
-    Unauthorized: 401,
-    NotFound: 404
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    NOT_FOUND: 404
   };
 
   var TIMEOUT_IN_MS = 10000;
@@ -28,16 +28,16 @@
     xhr.addEventListener('load', function () {
       var error;
       switch (xhr.status) {
-        case statusCode.OK:
+        case StatusCode.OK:
           onLoad(xhr.response);
           break;
-        case statusCode.BadRequest:
+        case StatusCode.BAD_REQUEST:
           error = 'Неверный запрос';
           break;
-        case statusCode.Unauthorized:
+        case StatusCode.UNAUTHORIZED:
           error = 'Пользователь не авторизован';
           break;
-        case statusCode.NotFound:
+        case StatusCode.NOT_FOUND:
           error = 'Ничего не найдено';
           break;
         default:
