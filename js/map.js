@@ -1,14 +1,10 @@
 'use strict';
 
 (function () {
-
-  var BUTTON = {
-    enter: 'Enter',
-    esc: 'Escape'
-  };
-
+  var MAX_COUNT = 5;
   var map = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
+  var offers = [];
 
   /**
    * Callback-функция, нажатия клавиши ESC.
@@ -16,7 +12,7 @@
    * @param {Object} evt событие, которое происходит в DOM.
    */
   var onCardEscKeyDown = function (evt) {
-    if (evt.key === BUTTON.esc) {
+    if (evt.key === window.util.ESC) {
       evt.preventDefault();
       removeCard();
       window.card.removeActiveClass();
@@ -29,15 +25,9 @@
    * @param {Object[]} ads Массив объявлений.
    */
   var successHandler = function (ads) {
-    var fragment = document.createDocumentFragment();
+    offers = ads.slice();
 
-    for (var i = 0; i < ads.length; i++) {
-      fragment.appendChild(window.pin.create(ads[i]));
-    }
-
-    var list = document.querySelector('.map__pins');
-
-    list.appendChild(fragment);
+    window.pin.render(offers.slice(0, MAX_COUNT));
   };
 
   /**
@@ -66,6 +56,19 @@
     window.form.form.classList.remove('ad-form--disabled');
 
     window.form.setFieldsetState();
+  };
+
+
+  /**
+   * @description Переводит страницу в неактивное состояние.
+   */
+  var removeActiveState = function () {
+    window.pin.remove();
+
+    map.classList.add('map--faded');
+    window.form.form.classList.add('ad-form--disabled');
+    window.form.setFieldsetState();
+    window.drag.mainPin.addEventListener('mousedown', onButtonMousedown, false);
   };
 
   /**
@@ -107,10 +110,10 @@
    * @param {Object} evt событие, которое происходит в DOM.
    */
   var onButtonKeydown = function (evt) {
-    if (evt.key === BUTTON.enter) {
+    if (evt.key === window.util.ENTER) {
       setActiveState();
+      window.drag.mainPin.removeEventListener('keydown', onButtonKeydown, false);
     }
-    window.drag.mainPin.removeEventListener('keydown', onButtonKeydown, false);
   };
 
   /**
@@ -122,8 +125,8 @@
     if (evt.button === 0) {
       setActiveState();
       window.form.setAddress(window.drag.mainPin);
+      window.drag.mainPin.removeEventListener('mousedown', onButtonMousedown, false);
     }
-    window.drag.mainPin.removeEventListener('mousedown', onButtonMousedown, false);
   };
 
   window.map = {
@@ -131,7 +134,9 @@
     removeCard: removeCard,
     showCard: showCard,
     onButtonKeydown: onButtonKeydown,
-    onButtonMousedown: onButtonMousedown
+    onButtonMousedown: onButtonMousedown,
+    removeActiveState: removeActiveState,
+    errorHandler: errorHandler
   };
 
 })();

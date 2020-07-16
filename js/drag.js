@@ -2,17 +2,26 @@
 
 (function () {
 
-  var border = {
-    top: 130,
-    right: 1135,
-    bottom: 630,
-    left: 0
+  var Border = {
+    TOP: 130,
+    RIGHT: 1135,
+    BOTTOM: 630,
+    LEFT: 0
+  };
+
+  var Start = {
+    X: '375px',
+    Y: '570px'
   };
 
   var mainPin = document.querySelector('.map__pin--main');
 
-  window.drag = {
-    mainPin: mainPin,
+  /**
+   * @description Получает начальные координаты главного пина.
+   */
+  var getStartPosition = function () {
+    mainPin.style.top = Start.X;
+    mainPin.style.left = Start.Y;
   };
 
   mainPin.addEventListener('mousedown', function (evt) {
@@ -40,20 +49,20 @@
         y: moveEvt.clientY
       };
 
-      if (mainPin.offsetTop - shift.y < border.top) {
-        mainPin.style.top = border.top + 'px';
+      if (mainPin.offsetTop - shift.y < Border.TOP) {
+        mainPin.style.top = Border.TOP + 'px';
       }
 
-      if (mainPin.offsetTop - shift.y > border.bottom) {
-        mainPin.style.top = border.bottom + 'px';
+      if (mainPin.offsetTop - shift.y > Border.BOTTOM) {
+        mainPin.style.top = Border.BOTTOM + 'px';
       }
 
-      if (mainPin.offsetLeft - shift.x < border.left) {
-        mainPin.style.left = border.left + 'px';
+      if (mainPin.offsetLeft - shift.x < Border.LEFT) {
+        mainPin.style.left = Border.LEFT + 'px';
       }
 
-      if (mainPin.offsetLeft - shift.x > border.right) {
-        mainPin.style.left = border.right + 'px';
+      if (mainPin.offsetLeft - shift.x > Border.RIGHT) {
+        mainPin.style.left = Border.RIGHT + 'px';
       }
 
       mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
@@ -76,5 +85,10 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.drag = {
+    mainPin: mainPin,
+    startPosition: getStartPosition
+  };
 
 })();

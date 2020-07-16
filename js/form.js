@@ -11,6 +11,7 @@
   var address = form.querySelector('input[name=address]');
   var selectTimein = form.querySelector('#timein');
   var selectTimeout = form.querySelector('#timeout');
+  var formReset = form.querySelector('.ad-form__reset');
 
   var ROOMS_CAPACITY = {
     '1': ['1'],
@@ -85,6 +86,75 @@
     });
   };
 
+  /**
+   * @description Обработчик нажатия по клавише esc.
+   * @param {Object} evt Событие DOM.
+   */
+  var onPopupEscPress = function (evt) {
+    if (evt.key === window.util.ESC) {
+      closePopup();
+    }
+  };
+
+  /**
+   * Функция закрытия окна оповещения.
+   * @function
+   */
+  var closePopup = function () {
+    onFormReset();
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  /**
+   * @description Обработчик успешной загрузки формы.
+   */
+  var onSuccess = function () {
+    closePopup();
+    window.map.removeActiveState();
+    window.report.openSuccess();
+  };
+
+  /**
+   * @description Обработчик ошибки загрузки формы.
+   */
+  var onError = function () {
+    window.report.openError();
+  };
+
+  /**
+   * @description Обработчик сброса формы.
+   */
+  var onFormReset = function () {
+    form.reset();
+    setAddress(window.drag.mainPin);
+    onSelectRoomNumberChange();
+    window.drag.startPosition();
+  };
+
+  /**
+   * @description Обработчик загрузки формы.
+   * @param {Object} evt Событие DOM.
+   */
+  var submitHandler = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), onSuccess, onError);
+  };
+
+  selectTimein.addEventListener('change', function () {
+    selectTimeout.value = selectTimein.value;
+  }, false);
+
+  selectTimeout.addEventListener('change', function () {
+    selectTimein.value = selectTimeout.value;
+  }, false);
+
+  form.addEventListener('submit', submitHandler);
+
+  formReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    onFormReset();
+  });
+
   window.form = {
     form: form,
     selectType: selectType,
@@ -95,13 +165,5 @@
     setAddress: setAddress,
     setFieldsetState: setFieldsetState
   };
-
-  selectTimein.addEventListener('change', function () {
-    selectTimeout.value = selectTimein.value;
-  }, false);
-
-  selectTimeout.addEventListener('change', function () {
-    selectTimein.value = selectTimeout.value;
-  }, false);
 
 })();
