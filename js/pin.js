@@ -63,9 +63,20 @@
     }
   };
 
+  /**
+   * @description Выполняет отрисовку отметок на карте после фильтрации.
+   * @param {Object[]} ads Массив объектов.
+   */
+  var updatePins = function () {
+    var filteredAds = window.map.offers;
+    removePins.remove();
+    renderPins(window.filter(filteredAds));
+  };
+
   window.pin = {
     render: renderPins,
-    remove: removePins
+    remove: removePins,
+    update: updatePins
   };
 
 })();
