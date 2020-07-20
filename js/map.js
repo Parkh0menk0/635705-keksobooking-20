@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var MAX_COUNT = 5;
+
   var map = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
   var offers = [];
@@ -27,7 +27,7 @@
   var successHandler = function (ads) {
     offers = ads.slice();
 
-    window.pin.render(offers.slice(0, MAX_COUNT));
+    window.pin.render(offers);
   };
 
   /**
@@ -130,6 +130,9 @@
   };
 
   window.map = {
+    offers: function () {
+      return offers;
+    },
     checkMapState: checkMapState,
     removeCard: removeCard,
     showCard: showCard,
