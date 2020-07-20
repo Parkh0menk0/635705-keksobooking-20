@@ -2,6 +2,8 @@
 
 (function () {
 
+  var mapFilters = document.querySelector('.map__filters');
+
   var priceMap = {
     'low': {
       start: 0,
@@ -58,6 +60,12 @@
   filterElements.forEach(function (item) {
     item.addEventListener('change', window.pin.update);
   });
+
+  mapFilters.addEventListener('change', window.debounce(function () {
+    window.pin.remove();
+    window.map.removeCard();
+    window.pin.update();
+  }));
 
   window.filter = filterData;
 
