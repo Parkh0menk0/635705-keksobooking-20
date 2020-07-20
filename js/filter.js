@@ -3,15 +3,15 @@
 (function () {
 
   var priceMap = {
-    low: {
+    'low': {
       start: 0,
       end: 10000
     },
-    middle: {
+    'middle': {
       start: 10000,
       end: 50000
     },
-    high: {
+    'high': {
       start: 50000,
       end: Infinity
     }
@@ -33,7 +33,7 @@
       return filter.value === data.offer.guests.toString();
     },
     'housing-features': function (data, filter) {
-      var checkListElements = Array.from(filter.querySelectorAll('input[type=checkbox]:checked').children);
+      var checkListElements = Array.from(filter.querySelectorAll('input[type=checkbox]:checked'));
       return checkListElements.every(function (item) {
         return data.offer.features.some(function (feature) {
           return feature === item.value;
