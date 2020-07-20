@@ -70,7 +70,7 @@
   var updatePins = function () {
     var filteredAds = window.filter(window.map.offers());
     removePins();
-    renderPins(filteredAds);
+    renderPins(filteredAds.slice());
   };
 
   window.pin = {
