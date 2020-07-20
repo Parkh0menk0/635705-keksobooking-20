@@ -49,8 +49,8 @@
    */
   var filterData = function (data) {
     return data.filter(function (item) {
-      return filterElements.elements.every(function (filter) {
-        return (filter.value === 'any' ? true : filterRule[filter.id](item, filter));
+      return filterElements.every(function (filter) {
+        return (filter.value === 'any') ? true : filterRule[filter.id](item, filter);
       });
     });
   };

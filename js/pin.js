@@ -68,7 +68,7 @@
    * @param {Object[]} ads Массив объектов.
    */
   var updatePins = function () {
-    var filteredAds = window.map.offers;
+    var filteredAds = window.map.offers();
     removePins();
     renderPins(window.filter(filteredAds));
   };

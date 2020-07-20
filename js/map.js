@@ -130,7 +130,9 @@
   };
 
   window.map = {
-    offers: offers,
+    offers: function () {
+      return offers;
+    },
     checkMapState: checkMapState,
     removeCard: removeCard,
     showCard: showCard,
