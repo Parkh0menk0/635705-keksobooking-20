@@ -2,6 +2,8 @@
 
 (function () {
 
+  var MAX_COUNT = 5;
+
   var Offset = {
     X: 25,
     Y: 70
@@ -43,7 +45,7 @@
   var renderPins = function (ads) {
     var fragment = document.createDocumentFragment();
 
-    ads.forEach(function (pin) {
+    ads.slice(0, MAX_COUNT).forEach(function (pin) {
       fragment.appendChild(createMark(pin));
     });
 
@@ -70,7 +72,7 @@
   var updatePins = function () {
     var filteredAds = window.filter(window.map.offers());
     removePins();
-    renderPins(filteredAds.slice());
+    renderPins(filteredAds.slice(0, MAX_COUNT));
   };
 
   window.pin = {
