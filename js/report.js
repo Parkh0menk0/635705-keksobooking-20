@@ -65,7 +65,7 @@
     try {
       document.addEventListener('click', onAnywhereClick);
     } catch (e) {
-      window.map.errorHandler('Error: ' + e.message + ' ' + e.stack);
+      window.map.onErrorLoad('Error: ' + e.message + ' ' + e.stack);
     }
     document.addEventListener('keydown', onSuccessEscPress);
   };
@@ -80,7 +80,7 @@
     try {
       document.addEventListener('click', onAnywhereClick);
     } catch (e) {
-      window.map.errorHandler('Error: ' + e.message + ' ' + e.stack);
+      window.map.onErrorLoad('Error: ' + e.message + ' ' + e.stack);
     }
     document.addEventListener('keydown', onErrorEscPress);
   };
