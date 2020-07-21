@@ -135,7 +135,7 @@
    * @description Обработчик загрузки формы.
    * @param {Object} evt Событие DOM.
    */
-  var submitHandler = function (evt) {
+  var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), onSuccess, onError);
   };
@@ -148,7 +148,7 @@
     selectTimein.value = selectTimeout.value;
   }, false);
 
-  form.addEventListener('submit', submitHandler);
+  form.addEventListener('submit', onFormSubmit);
 
   formReset.addEventListener('click', function (evt) {
     evt.preventDefault();
