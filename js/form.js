@@ -74,7 +74,7 @@
    */
   var setAddress = function (pin) {
     address.style.cursor = 'not-allowed';
-    address.value = window.map.checkMapState() ? (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2)) : address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
+    address.value = window.map.checkMapState() ? (Math.round(parseInt(pin.style.left, 10) + pin.clientWidth / 2)) + ', ' + (Math.round(parseInt(pin.style.top, 10) + pin.clientHeight / 2)) : address.value = (Math.round(parseInt(pin.style.left, 10) + pin.clientWidth / 2)) + ', ' + (parseInt(pin.style.top, 10) + pin.clientHeight + window.drag.Offset.ARROW);
   };
 
   /**
