@@ -2,6 +2,12 @@
 
 (function () {
 
+  var Offset = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    ARROW: 20
+  };
+
   var Border = {
     TOP: 130,
     RIGHT: 1135,
@@ -40,8 +46,8 @@
       moveEvt.preventDefault();
 
       var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+        x: Math.ceil((startCoords.x - moveEvt.clientX) + (Offset.WIDTH / 2)),
+        y: (startCoords.y - moveEvt.clientY) + Offset.HEIGHT + Offset.ARROW
       };
 
       startCoords = {
