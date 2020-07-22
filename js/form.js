@@ -148,18 +148,17 @@
     selectTimein.value = selectTimeout.value;
   }, false);
 
-  form.addEventListener('submit', function () {
+  form.addEventListener('click', function () {
     Array.from(document.querySelectorAll('input:invalid')).forEach(function (item) {
-      console.log(item);
       if (!item.value) {
         item.style.boxShadow = '0px 0px 4px red';
       } else {
         item.style.boxShadow = '0px 0px 0px transparent';
       }
     });
-
-    onFormSubmit();
   });
+
+  form.addEventListener('submit', onFormSubmit);
 
   formReset.addEventListener('click', function (evt) {
     evt.preventDefault();
