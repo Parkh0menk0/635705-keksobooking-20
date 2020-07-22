@@ -4,22 +4,20 @@
 
   /**
    * @description Добавляет фотографии DOM-элементу.
-   * @param {Object} photos Контейнер для фотографий.
-   * @param {Object[]} data Массив фотографий.
+   * @param {Object[]} data Фотографии.
+   * @return {Object} Объект DocumentFragment.
    */
-  var setPhotoContent = function (photos, data) {
+  var setPhotoContent = function (data) {
+    var fragment = document.createDocumentFragment();
     for (var i = 0; i < data.length; i++) {
-
-      if (i >= 1) {
-        var img = document.createElement('img');
-        img.classList.add('popup__photo');
-        img.style.width = '45px';
-        img.style.height = '40px';
-        photos.append(img);
-      }
-
-      photos.children[i].src = data[i];
+      var img = document.createElement('img');
+      img.classList.add('popup__photo');
+      img.style.width = '45px';
+      img.style.height = '40px';
+      fragment.appendChild(img);
     }
+
+    return fragment;
   };
 
   /**
@@ -36,7 +34,7 @@
   /**
    * @description Создаёт DOM-элемент карточеки объявления на основе элементов массива JS-объектов.
    * @param {Object} cardData Сгенерированный массив объявлений.
-   * @return {Object} DocumentFragment.
+   * @return {Object} Объект DocumentFragment.
    */
   var createCard = function (cardData) {
     var template = document.querySelector('#card').content.querySelector('article');
@@ -97,7 +95,8 @@
     });
 
     element.querySelector('.popup__title').textContent = cardData.offer.title;
-    setPhotoContent(photos, cardData.offer.photos);
+    photos.innerHTML = '';
+    photos.appendChild(setPhotoContent(cardData.offer.photos));
 
     avatar.src = cardData.author.avatar;
 
