@@ -129,6 +129,7 @@
     setAddress(window.drag.mainPin);
     onSelectRoomNumberChange();
     window.drag.startPosition();
+    window.map.removeActiveState();
   };
 
   /**
