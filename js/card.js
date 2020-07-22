@@ -97,7 +97,6 @@
 
     element.querySelector('.popup__title').textContent = cardData.offer.title;
     photos.innerHTML = '';
-    console.log(setPhotoContent(cardData.offer.photos));
     photos.appendChild(setPhotoContent(cardData.offer.photos));
 
     avatar.src = cardData.author.avatar;
