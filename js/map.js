@@ -25,7 +25,9 @@
    * @param {Object[]} ads Массив объявлений.
    */
   var onSuccessLoad = function (ads) {
-    offers = ads.slice();
+    offers = ads.slice().filter(function (item) {
+      return Object.keys(item.offer).length !== 0;
+    });
 
     window.pin.render(offers);
   };
