@@ -63,11 +63,11 @@
     var message = templateSuccess.cloneNode(true);
     document.querySelector('main').appendChild(message);
     try {
-      document.addEventListener('click', onAnywhereClick);
+      document.addEventListener('click', onAnywhereClick, false);
     } catch (e) {
       window.map.onErrorLoad('Error: ' + e.message + ' ' + e.stack);
     }
-    document.addEventListener('keydown', onSuccessEscPress);
+    document.addEventListener('keydown', onSuccessEscPress, false);
   };
 
   /**
@@ -78,11 +78,11 @@
     var message = templateError.cloneNode(true);
     document.querySelector('main').appendChild(message);
     try {
-      document.addEventListener('click', onAnywhereClick);
+      document.addEventListener('click', onAnywhereClick, false);
     } catch (e) {
       window.map.onErrorLoad('Error: ' + e.message + ' ' + e.stack);
     }
-    document.addEventListener('keydown', onErrorEscPress);
+    document.addEventListener('keydown', onErrorEscPress, false);
   };
 
   window.report = {

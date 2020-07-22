@@ -58,14 +58,14 @@
   };
 
   filterElements.forEach(function (item) {
-    item.addEventListener('change', window.pin.update);
+    item.addEventListener('change', window.pin.update, false);
   });
 
   mapFilters.addEventListener('change', window.debounce(function () {
     window.pin.remove();
     window.map.removeCard();
     window.pin.update();
-  }));
+  }, false));
 
   window.filter = filterData;
 

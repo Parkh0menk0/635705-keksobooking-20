@@ -33,7 +33,7 @@
       element.classList.add('map__pin--active');
 
       window.map.showCard(pin);
-    });
+    }, false);
 
     return element;
   };

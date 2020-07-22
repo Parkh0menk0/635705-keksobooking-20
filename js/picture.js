@@ -28,11 +28,11 @@
 
       reader.addEventListener('load', function () {
         destinationAvatar.src = reader.result;
-      });
+      }, false);
 
       reader.readAsDataURL(file);
     }
-  });
+  }, false);
 
   inputHousing.addEventListener('change', function () {
     var file = inputHousing.files[0];
@@ -47,10 +47,10 @@
         img.style.borderRadius = '5px';
         img.src = reader.result;
         destinationHousing.append(img);
-      });
+      }, false);
 
       reader.readAsDataURL(file);
     }
-  });
+  }, false);
 
 })();

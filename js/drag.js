@@ -82,9 +82,9 @@
       document.removeEventListener('mouseup', onMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
+    document.addEventListener('mousemove', onMouseMove, false);
+    document.addEventListener('mouseup', onMouseUp, false);
+  }, false);
 
   window.drag = {
     mainPin: mainPin,

@@ -67,7 +67,7 @@
     element.querySelector('.popup__close').addEventListener('click', function () {
       window.map.removeCard();
       removeActiveClass();
-    });
+    }, false);
 
     return element;
   };

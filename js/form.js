@@ -158,14 +158,14 @@
         item.style.boxShadow = '0px 0px 0px transparent';
       }
     });
-  });
+  }, false);
 
-  form.addEventListener('submit', onFormSubmit);
+  form.addEventListener('submit', onFormSubmit, false);
 
   formReset.addEventListener('click', function (evt) {
     evt.preventDefault();
     onFormReset();
-  });
+  }, false);
 
   window.form = {
     form: form,

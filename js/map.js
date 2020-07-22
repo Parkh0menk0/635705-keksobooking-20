@@ -101,7 +101,7 @@
 
     map.insertBefore(fragment, filtersContainer);
 
-    document.addEventListener('keydown', onCardEscKeyDown);
+    document.addEventListener('keydown', onCardEscKeyDown, false);
   };
 
   /**
