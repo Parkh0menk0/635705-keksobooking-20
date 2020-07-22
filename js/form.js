@@ -139,6 +139,7 @@
   var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), onSuccess, onError);
+    onFormReset();
   };
 
   selectTimein.addEventListener('change', function () {
