@@ -14,6 +14,7 @@
       img.classList.add('popup__photo');
       img.style.width = '45px';
       img.style.height = '40px';
+      img.src = data[i];
       fragment.appendChild(img);
     }
 
@@ -96,6 +97,7 @@
 
     element.querySelector('.popup__title').textContent = cardData.offer.title;
     photos.innerHTML = '';
+    console.log(setPhotoContent(cardData.offer.photos));
     photos.appendChild(setPhotoContent(cardData.offer.photos));
 
     avatar.src = cardData.author.avatar;
