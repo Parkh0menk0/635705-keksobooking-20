@@ -17,7 +17,6 @@
       img.src = data[i];
       fragment.appendChild(img);
     }
-
     return fragment;
   };
 
