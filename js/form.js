@@ -143,6 +143,9 @@
     onFormReset();
   };
 
+  setAddress(window.drag.mainPin);
+  setFieldsetState();
+
   selectTimein.addEventListener('change', function () {
     selectTimeout.value = selectTimein.value;
   }, false);
@@ -157,6 +160,12 @@
     });
   }, false);
 
+  selectRoomNumber.addEventListener('change', onSelectRoomNumberChange, false);
+  selectType.addEventListener('change', onSelectRoomPriceChange, false);
+
+  onSelectRoomNumberChange();
+  onSelectRoomPriceChange();
+
   form.addEventListener('submit', onFormSubmit, false);
 
   reset.addEventListener('click', function (evt) {
@@ -166,11 +175,7 @@
 
   window.form = {
     element: form,
-    selectType: selectType,
-    selectRoomNumber: selectRoomNumber,
     types: types,
-    onSelectRoomNumberChange: onSelectRoomNumberChange,
-    onSelectRoomPriceChange: onSelectRoomPriceChange,
     setAddress: setAddress,
     setFieldsetState: setFieldsetState
   };

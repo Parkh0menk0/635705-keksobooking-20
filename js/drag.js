@@ -97,6 +97,9 @@
     document.addEventListener('mouseup', onMouseUp, false);
   }, false);
 
+  mainPin.addEventListener('mousedown', window.map.onButtonMousedown, false);
+  mainPin.addEventListener('keydown', window.map.onButtonKeydown, false);
+
   window.drag = {
     Offset: Offset,
     mainPin: mainPin,
