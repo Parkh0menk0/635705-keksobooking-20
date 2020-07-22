@@ -2,6 +2,13 @@
 
 (function () {
 
+  var ROOMS_CAPACITY = {
+    '1': ['1'],
+    '2': ['2', '1'],
+    '3': ['3', '2', '1'],
+    '100': ['0']
+  };
+
   var form = document.querySelector('.ad-form');
   var fieldsets = form.querySelectorAll('.ad-form__element');
   var selectCapacity = form.querySelector('#capacity');
@@ -11,14 +18,8 @@
   var address = form.querySelector('input[name=address]');
   var selectTimein = form.querySelector('#timein');
   var selectTimeout = form.querySelector('#timeout');
-  var formReset = form.querySelector('.ad-form__reset');
-
-  var ROOMS_CAPACITY = {
-    '1': ['1'],
-    '2': ['2', '1'],
-    '3': ['3', '2', '1'],
-    '100': ['0']
-  };
+  var submit = form.querySelector('.ad-form__submit');
+  var reset = form.querySelector('.ad-form__reset');
 
   var types = {
     palace: {
@@ -150,25 +151,21 @@
     selectTimein.value = selectTimeout.value;
   }, false);
 
-  form.addEventListener('click', function () {
+  submit.addEventListener('click', function () {
     Array.from(document.querySelectorAll('input:invalid')).forEach(function (item) {
-      if (!item.value) {
-        item.style.boxShadow = '0px 0px 4px red';
-      } else {
-        item.style.boxShadow = '0px 0px 0px transparent';
-      }
+      item.style.boxShadow = (!item.value) ? '0px 0px 4px red' : '0px 0px 0px transparent';
     });
   }, false);
 
   form.addEventListener('submit', onFormSubmit, false);
 
-  formReset.addEventListener('click', function (evt) {
+  reset.addEventListener('click', function (evt) {
     evt.preventDefault();
     onFormReset();
   }, false);
 
   window.form = {
-    form: form,
+    element: form,
     selectType: selectType,
     selectRoomNumber: selectRoomNumber,
     types: types,

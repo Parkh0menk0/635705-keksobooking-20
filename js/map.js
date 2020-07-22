@@ -53,7 +53,7 @@
     map.classList.remove('map--faded');
 
     window.backend.load(onSuccessLoad, onErrorLoad);
-    window.form.form.classList.remove('ad-form--disabled');
+    window.form.element.classList.remove('ad-form--disabled');
 
     window.form.setFieldsetState();
   };
@@ -66,7 +66,7 @@
     window.pin.remove();
 
     map.classList.add('map--faded');
-    window.form.form.classList.add('ad-form--disabled');
+    window.form.element.classList.add('ad-form--disabled');
     window.form.setFieldsetState();
     window.drag.mainPin.addEventListener('mousedown', onButtonMousedown, false);
   };
