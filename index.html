@@ -102,7 +102,8 @@
               <img src="img/muffin-grey.svg" alt="Аватар пользователя" width="40" height="44">
             </div>
             <div class="ad-form__field">
-              <input type="image" id="avatar" name="avatar" class="ad-form-header__input visually-hidden">
+              <input type="file" id="avatar" name="avatar" class="ad-form-header__input visually-hidden"
+                accept="image/jpeg,image/png,image/gif">
               <label class="ad-form-header__drop-zone" for="avatar">Загрузить<br>фото...</label>
             </div>
             <p class="ad-form-header__info">Заполните все обязательные поля, назначьте цену, загрузите фотографии.
@@ -193,7 +194,8 @@
           <label class="ad-form__label">Фотография жилья</label>
           <div class="ad-form__photo-container">
             <div class="ad-form__upload">
-              <input type="image" id="images" name="images" class="ad-form__input visually-hidden">
+              <input type="file" id="images" name="images" class="ad-form__input visually-hidden"
+                accept="image/jpeg,image/png,image/gif">
               <label for="images" class="ad-form__drop-zone">Загрузить<br>фото...</label>
             </div>
             <div class="ad-form__photo"></div>
@@ -277,12 +279,12 @@
   <script src="js/util.js"></script>
   <!-- Получает данные;-->
   <script src="js/backend.js"></script>
-  <!-- Отвечает за перемещение главного пина на странице;-->
-  <script src="js/drag.js"></script>
   <!-- Отвечает за создание метки на карте;-->
   <script src="js/pin.js"></script>
   <!-- Управляет карточками объявлений и метками;-->
   <script src="js/map.js"></script>
+  <!-- Отвечает за перемещение главного пина на странице;-->
+  <script src="js/drag.js"></script>
   <!-- Отвечает за создание карточки объявлений;-->
   <script src="js/card.js"></script>
   <!-- Устраняет «дребезг» при переключении фильтра;-->
@@ -293,8 +295,8 @@
   <script src="js/report.js"></script>
   <!-- Работает с формой объявления;-->
   <script src="js/form.js"></script>
-  <!-- Tочка входа;-->
-  <script src="js/main.js"></script>
+  <!-- Отвечает за загрузку аватарки и фотографии жилья;-->
+  <script src="js/picture.js"></script>
 
 </body>
 

@@ -2,6 +2,13 @@
 
 (function () {
 
+  var ROOMS_CAPACITY = {
+    '1': ['1'],
+    '2': ['2', '1'],
+    '3': ['3', '2', '1'],
+    '100': ['0']
+  };
+
   var form = document.querySelector('.ad-form');
   var fieldsets = form.querySelectorAll('.ad-form__element');
   var selectCapacity = form.querySelector('#capacity');
@@ -11,14 +18,8 @@
   var address = form.querySelector('input[name=address]');
   var selectTimein = form.querySelector('#timein');
   var selectTimeout = form.querySelector('#timeout');
-  var formReset = form.querySelector('.ad-form__reset');
-
-  var ROOMS_CAPACITY = {
-    '1': ['1'],
-    '2': ['2', '1'],
-    '3': ['3', '2', '1'],
-    '100': ['0']
-  };
+  var submit = form.querySelector('.ad-form__submit');
+  var reset = form.querySelector('.ad-form__reset');
 
   var types = {
     palace: {
@@ -74,7 +75,7 @@
    */
   var setAddress = function (pin) {
     address.style.cursor = 'not-allowed';
-    address.value = window.map.checkMapState() ? (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (Math.round(pin.offsetTop + pin.clientHeight / 2)) : address.value = (Math.round(pin.offsetLeft + pin.clientWidth / 2)) + ', ' + (pin.offsetTop + pin.clientHeight);
+    address.value = window.map.checkMapState() ? (Math.round(parseInt(pin.style.left, 10) + pin.clientWidth / 2)) + ', ' + (Math.round(parseInt(pin.style.top, 10) + pin.clientHeight / 2)) : address.value = (Math.round(parseInt(pin.style.left, 10) + pin.clientWidth / 2)) + ', ' + (parseInt(pin.style.top, 10) + pin.clientHeight + window.drag.Offset.ARROW);
   };
 
   /**
@@ -129,16 +130,21 @@
     setAddress(window.drag.mainPin);
     onSelectRoomNumberChange();
     window.drag.startPosition();
+    window.map.removeActiveState();
   };
 
   /**
    * @description Обработчик загрузки формы.
    * @param {Object} evt Событие DOM.
    */
-  var submitHandler = function (evt) {
+  var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), onSuccess, onError);
+    onFormReset();
   };
+
+  setAddress(window.drag.mainPin);
+  setFieldsetState();
 
   selectTimein.addEventListener('change', function () {
     selectTimeout.value = selectTimein.value;
@@ -148,20 +154,28 @@
     selectTimein.value = selectTimeout.value;
   }, false);
 
-  form.addEventListener('submit', submitHandler);
+  submit.addEventListener('click', function () {
+    Array.from(document.querySelectorAll('input:invalid')).forEach(function (item) {
+      item.style.boxShadow = (!item.value) ? '0px 0px 4px red' : '0px 0px 0px transparent';
+    });
+  }, false);
 
-  formReset.addEventListener('click', function (evt) {
+  selectRoomNumber.addEventListener('change', onSelectRoomNumberChange, false);
+  selectType.addEventListener('change', onSelectRoomPriceChange, false);
+
+  onSelectRoomNumberChange();
+  onSelectRoomPriceChange();
+
+  form.addEventListener('submit', onFormSubmit, false);
+
+  reset.addEventListener('click', function (evt) {
     evt.preventDefault();
     onFormReset();
-  });
+  }, false);
 
   window.form = {
-    form: form,
-    selectType: selectType,
-    selectRoomNumber: selectRoomNumber,
+    element: form,
     types: types,
-    onSelectRoomNumberChange: onSelectRoomNumberChange,
-    onSelectRoomPriceChange: onSelectRoomPriceChange,
     setAddress: setAddress,
     setFieldsetState: setFieldsetState
   };

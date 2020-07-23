@@ -24,8 +24,10 @@
    * @description Обработчик создания DOM-элементов отметок на карте.
    * @param {Object[]} ads Массив объявлений.
    */
-  var successHandler = function (ads) {
-    offers = ads.slice();
+  var onSuccessLoad = function (ads) {
+    offers = ads.slice().filter(function (item) {
+      return Object.keys(item.offer).length !== 0;
+    });
 
     window.pin.render(offers);
   };
@@ -34,7 +36,7 @@
    * @description Обработчик ошибки.
    * @param {String} errorMessage Текстовое описание ошибки.
    */
-  var errorHandler = function (errorMessage) {
+  var onErrorLoad = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: #ff5635;';
     node.style.position = 'absolute';
@@ -52,8 +54,8 @@
   var setActiveState = function () {
     map.classList.remove('map--faded');
 
-    window.backend.load(successHandler, errorHandler);
-    window.form.form.classList.remove('ad-form--disabled');
+    window.backend.load(onSuccessLoad, onErrorLoad);
+    window.form.element.classList.remove('ad-form--disabled');
 
     window.form.setFieldsetState();
   };
@@ -66,7 +68,7 @@
     window.pin.remove();
 
     map.classList.add('map--faded');
-    window.form.form.classList.add('ad-form--disabled');
+    window.form.element.classList.add('ad-form--disabled');
     window.form.setFieldsetState();
     window.drag.mainPin.addEventListener('mousedown', onButtonMousedown, false);
   };
@@ -101,7 +103,7 @@
 
     map.insertBefore(fragment, filtersContainer);
 
-    document.addEventListener('keydown', onCardEscKeyDown);
+    document.addEventListener('keydown', onCardEscKeyDown, false);
   };
 
   /**
@@ -139,7 +141,7 @@
     onButtonKeydown: onButtonKeydown,
     onButtonMousedown: onButtonMousedown,
     removeActiveState: removeActiveState,
-    errorHandler: errorHandler
+    onErrorLoad: onErrorLoad
   };
 
 })();

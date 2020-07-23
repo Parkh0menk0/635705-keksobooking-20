@@ -2,11 +2,17 @@
 
 (function () {
 
+  var Offset = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    ARROW: 20
+  };
+
   var Border = {
     TOP: 130,
-    RIGHT: 1135,
+    RIGHT: 1200,
     BOTTOM: 630,
-    LEFT: 0
+    LEFT: 1
   };
 
   var Start = {
@@ -22,6 +28,28 @@
   var getStartPosition = function () {
     mainPin.style.top = Start.X;
     mainPin.style.left = Start.Y;
+  };
+
+
+  var correctCoordinates = function (shift) {
+    var x = mainPin.offsetLeft - shift.x;
+    var y = mainPin.offsetTop - shift.y;
+    var offset = Offset.HEIGHT + Offset.ARROW;
+
+    if (y < Border.TOP - offset) {
+      y = Border.TOP - offset;
+    } else if (y > Border.BOTTOM - offset) {
+      y = Border.BOTTOM - offset;
+    }
+
+    if (x < Border.LEFT) {
+      x = Border.LEFT;
+    } else if (x > Border.RIGHT - Offset.WIDTH) {
+      x = Border.RIGHT - Offset.WIDTH;
+    }
+
+    mainPin.style.top = y + 'px';
+    mainPin.style.left = x + 'px';
   };
 
   mainPin.addEventListener('mousedown', function (evt) {
@@ -49,24 +77,7 @@
         y: moveEvt.clientY
       };
 
-      if (mainPin.offsetTop - shift.y < Border.TOP) {
-        mainPin.style.top = Border.TOP + 'px';
-      }
-
-      if (mainPin.offsetTop - shift.y > Border.BOTTOM) {
-        mainPin.style.top = Border.BOTTOM + 'px';
-      }
-
-      if (mainPin.offsetLeft - shift.x < Border.LEFT) {
-        mainPin.style.left = Border.LEFT + 'px';
-      }
-
-      if (mainPin.offsetLeft - shift.x > Border.RIGHT) {
-        mainPin.style.left = Border.RIGHT + 'px';
-      }
-
-      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      correctCoordinates(shift);
     };
 
     /**
@@ -82,11 +93,15 @@
       document.removeEventListener('mouseup', onMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
+    document.addEventListener('mousemove', onMouseMove, false);
+    document.addEventListener('mouseup', onMouseUp, false);
+  }, false);
+
+  mainPin.addEventListener('mousedown', window.map.onButtonMousedown, false);
+  mainPin.addEventListener('keydown', window.map.onButtonKeydown, false);
 
   window.drag = {
+    Offset: Offset,
     mainPin: mainPin,
     startPosition: getStartPosition
   };

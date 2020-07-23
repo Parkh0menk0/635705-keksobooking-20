@@ -47,15 +47,15 @@
       if (error) {
         onError(error);
       }
-    });
+    }, false);
 
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
-    });
+    }, false);
 
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
+    }, false);
 
     xhr.timeout = TIMEOUT_IN_MS;
 
