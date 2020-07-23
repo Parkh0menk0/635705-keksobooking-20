@@ -66,7 +66,7 @@
    */
   var removeActiveState = function () {
     window.pin.remove();
-
+    removeCard();
     map.classList.add('map--faded');
     window.form.element.classList.add('ad-form--disabled');
     window.form.setFieldsetState();
